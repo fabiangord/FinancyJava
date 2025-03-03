@@ -1,5 +1,5 @@
 package Models;
 
-enum Category {
+public enum Category {
     VIVIENDA, TRANSPORTE, ALIMENTOS
 }

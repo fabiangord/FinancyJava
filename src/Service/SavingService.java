@@ -29,4 +29,8 @@ public class SavingService {
         database.deleteSaving(id);
     }
 
+    public void getOneSaving(int id){
+        database.getOneSaving(id);
+    }
+
 }

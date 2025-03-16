@@ -56,13 +56,32 @@ public class SavingDB {
 
     public void deleteSaving(int id){
         if(con != null){
-            String spl = "DELETE FROM savings WHERE id = ?";
-            try (PreparedStatement ps = con.prepareStatement(spl)){
+            String sql = "DELETE FROM savings WHERE id = ?";
+            try (PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setInt(1, id);
                 ps.executeUpdate();
                 System.out.println("Ahorro Eliminado correctamente");
             } catch (Exception e) {
                 System.out.println("Error al actualizar saving: " + e.getMessage());
+            }
+        }
+    }
+
+    public void getOneSaving(int id){
+        if(con != null){
+            String sql = "SELECT * FROM savings WHERE id = ?";
+            try (PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    int savingId  = rs.getInt("id");
+                    String name = rs.getString("name");
+                    int value = rs.getInt("value");
+                    String category = rs.getString("category");
+                    System.out.println("ID: " + savingId + " Nombre: " + name + " valor: " + value + " categoria: " + category);
+                }
+            } catch (Exception e) {
+                System.out.println("Error al buscar saving: " + e.getMessage());
             }
         }
     }

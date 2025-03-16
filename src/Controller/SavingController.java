@@ -24,4 +24,8 @@ public class SavingController {
     public void deleteSaving(int id){
         database.deleteSaving(id);
     }
+
+    public void getOneSaving(int id){
+        database.getOneSaving(id);
+    }
 }

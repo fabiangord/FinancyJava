@@ -1,11 +1,21 @@
 package Service;
 
-import Db.LocalDatabase.IncomeDatabase;
+import java.math.BigInteger;
+
+import Db.MySql.Tables.IncomeDB;
 
 public class IncomeService {
-    private IncomeDatabase database;
+    private IncomeDB database;
 
-    IncomeService(IncomeDatabase database){
-        this.database = database;
+    public IncomeService(){
+        this.database = new IncomeDB();
     };
+
+    public void addsaving(String name, String category, BigInteger value) {
+        database.insertSaving(name, category, value);
+    }
+
+    public void getAllSaving(){
+        database.getAllSaving();
+    }
 }

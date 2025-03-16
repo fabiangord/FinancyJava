@@ -1,11 +1,25 @@
 package Service;
-
-import Db.LocalDatabase.SavingDatabase;
+import java.math.BigInteger;
+import Db.MySql.Tables.SavingDB;
 
 public class SavingService {
-    private SavingDatabase database;
+    private SavingDB database;
 
-    SavingService(SavingDatabase database){
-        this.database = database;
+    public SavingService(){
+        this.database = new SavingDB();
     };
+
+    public SavingDB getDatabase() {
+        return database;
+    }
+
+    public void addsaving(String name, String category, BigInteger value) {
+        database.insertSaving(name, category, value);
+    }
+
+    public void getAllSaving(){
+        database.getAllSaving();
+    }
+    
+
 }

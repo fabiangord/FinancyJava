@@ -1,12 +1,22 @@
 package Service;
 
-import Db.LocalDatabase.BudgetDatabase;
+import java.math.BigInteger;
+
+import Db.MySql.Tables.BudgetDB;
 
 public class BudgetService {
 
-    private BudgetDatabase database;
+    private BudgetDB database;
 
-    BudgetService(BudgetDatabase database){
-        this.database = database;
+    public BudgetService(){
+        this.database = new BudgetDB();
     };
+
+    public void addsaving(String name, String category, BigInteger value) {
+        database.insertSaving(name, category, value);
+    }
+
+    public void getAllSaving(){
+        database.getAllSaving();
+    }
 }

@@ -1,21 +1,32 @@
 package View.components;
-import Controller.SavingController;
-import View.MainFrame;
 
+import Controller.SavingController;
+import Models.Saving;
+import View.MainFrame;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.math.BigInteger;
+import javax.swing.table.DefaultTableModel;
 
-public class SavingFrame extends JFrame{
+import java.math.BigInteger;
+import java.util.List;
+
+public class SavingFrame extends JFrame {
     private JTextField nameField;
     private JTextField valueField;
     private JTextField categoryField;
+    private JLabel allSavingLabel;
     private SavingController controllerSaving;
+    private JTable table;
+    private DefaultTableModel tableModel;
+    private JComboBox<String> categoryComboBox;
+
     public static void main(String[] args) {
         new SavingFrame();
     }
+
     public SavingFrame() {
+        this.controllerSaving = new SavingController();
         initialize();
     }
 
@@ -37,12 +48,9 @@ public class SavingFrame extends JFrame{
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(backButton);
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                new MainFrame();
-                dispose();
-            }
+        backButton.addActionListener(e -> {
+            new MainFrame();
+            dispose();
         });
 
         JLabel titleLabel = new JLabel("Saving");
@@ -70,9 +78,10 @@ public class SavingFrame extends JFrame{
         categoryLabel.setBounds(90, 170, 80, 25);
         add(categoryLabel);
 
-        categoryField = new JTextField();
-        categoryField.setBounds(150, 170, 200, 25);
-        add(categoryField);
+        String[] categories = {"", "VIVIENDA", "TRANSPORTE", "ALIMENTOS", "SUELDO"};
+        JComboBox<String> categoryComboBox = new JComboBox<>(categories);
+        categoryComboBox.setBounds(150, 170, 200, 25);
+        add(categoryComboBox);
 
         JButton saveButton = new JButton("Guardar");
         saveButton.setBounds(150, 230, 200, 50);
@@ -82,22 +91,55 @@ public class SavingFrame extends JFrame{
         saveButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         saveButton.setFocusPainted(false);
         saveButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+
+        saveButton.addActionListener(e -> {
+            try {
                 String name = nameField.getText().trim();
-                String category = categoryField.getText().trim();
+                String category = (String) categoryComboBox.getSelectedItem();
                 String valueText = valueField.getText().trim();
                 BigInteger value = new BigInteger(valueText);
-                
-                controllerSaving = new SavingController();
+
                 controllerSaving.add(name, category, value);
                 JOptionPane.showMessageDialog(null, "Ahorro guardado con éxito!");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido en 'Value'.");
             }
         });
+
         add(saveButton);
 
+
+        JButton allSavings = new JButton("Ver Ahorros");
+        allSavings.setBounds(150, 300, 200, 50);
+        allSavings.setFont(new Font("Arial", Font.BOLD, 16));
+        allSavings.setForeground(Color.WHITE);
+        allSavings.setBackground(new Color(52, 152, 219));
+        allSavings.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        allSavings.setFocusPainted(false);
+        allSavings.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        allSavings.addActionListener(e -> allSavings());
+        add(allSavings);
+
+        String[] columns = {"ID", "Nombre", "Valor", "Categoria"};
+        tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 380, 400, 200);
+        add(scrollPane);
+
         setVisible(true);
+    }
+
+    private void allSavings() {
+        controllerSaving = new SavingController();
+        List<Saving> results = controllerSaving.getAll();
+        tableModel.setRowCount(0);
+    
+        for (Saving saving : results) {
+            Object[] row = {saving.getId(), saving.getName(), saving.getValue(), saving.getCategory()};
+            tableModel.addRow(row);
+        }
     }
 }

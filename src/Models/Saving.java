@@ -1,14 +1,20 @@
 package Models;
-
 import java.math.BigInteger;
+import java.util.UUID;
 
-public class Saving extends WithOutMoney {
-    Saving (String name, BigInteger value, Category category) {
-        super(name, value, category);
+public class Saving {
+    private String id = UUID.randomUUID().toString();
+    public String name;
+    public BigInteger value;
+
+    Saving(String name, BigInteger value) {
+        this.name = name;
+        this.value = value;
+
     }
 
-    @Override
-    public String getId() {
-        return super.getId();
+    public String getid(){
+        return id;
     }
+
 }

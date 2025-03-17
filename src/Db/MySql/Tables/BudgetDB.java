@@ -10,7 +10,7 @@ import Db.MySql.MySQL;
 
 public class BudgetDB {
     private static Connection con = MySQL.connect();
-    public void insertSaving(String name, String category, BigInteger value) {
+    public void insertBudget(String name, String category, BigInteger value) {
         if (con != null) {
             String sql = "INSERT INTO budgets (name, value, category) VALUES (?, ?, ?)";
             try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -25,7 +25,7 @@ public class BudgetDB {
         }
     }
 
-    public void getAllSaving() {
+    public void getAllBudget() {
         if (con != null) {
             String sql = "SELECT * FROM `budgets`";
             try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {

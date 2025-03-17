@@ -16,4 +16,16 @@ public class SavingController {
     public void getAllSaving(){
         database.getAllSaving();
     } 
+
+    public void updateSaving(String name, BigInteger value, String category, int id){
+        database.updateSaving(name, value, category, id);
+    }
+
+    public void deleteSaving(int id){
+        database.deleteSaving(id);
+    }
+
+    public void getOneSaving(int id){
+        database.getOneSaving(id);
+    }
 }

@@ -11,11 +11,11 @@ public class BudgetController {
         this.database = new BudgetService();
     };
 
-    public void addSaving(String name, String category, BigInteger value) {
-        database.addsaving(name, category, value);
+    public void addBudget(String name, String category, BigInteger value) {
+        database.addBudget(name, category, value);
     }
 
-    public void getAllSaving(){
-        database.getAllSaving();
+    public void getAllBudget(){
+        database.getAllBudget();
     } 
 }

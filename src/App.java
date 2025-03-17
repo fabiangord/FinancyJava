@@ -1,11 +1,14 @@
 import java.math.BigInteger;
-
+import View.MainFrame;
 import Controller.BudgetController;
 import Controller.ExpensesController;
 import Controller.IncomeController;
 import Controller.SavingController;
 public class App {    public static void main(String[] args) throws Exception {
     System.out.println("Hello, World!");
+
+    MainFrame ventana = new MainFrame();
+    ventana.initialize();
 
     //Saving
     SavingController controllerSaving = new SavingController();

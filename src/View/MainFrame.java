@@ -1,4 +1,5 @@
 package View;
+import View.components.BudgetsFrame;
 import View.components.ExpensesFrame;
 import View.components.IncomeFrame;
 import View.components.SavingFrame;
@@ -121,7 +122,8 @@ public class MainFrame extends JFrame {
         budgetsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-                
+                new BudgetsFrame();
+                dispose();
             }
         });
     }

@@ -16,15 +16,15 @@ public class IncomeDB {
     public static Connection con = MySQL.connect();
     public void insert(String name, String category, BigInteger value) {
         if (con != null) {
-            String sql = "INSERT INTO savings (name, value, category) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO incomes (name, value, category) VALUES (?, ?, ?)";
             try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setString(1, name);
                 ps.setLong(2, value.longValue());
                 ps.setString(3, category);
                 ps.executeUpdate();
-                System.out.println("Ahorro insertado correctamente.");
+                System.out.println("Ingreso insertado correctamente.");
             } catch (SQLException e) {
-                System.out.println("Error al insertar saving: " + e.getMessage());
+                System.out.println("Error al insertar ingreso: " + e.getMessage());
             }
         }
     }
@@ -32,7 +32,7 @@ public class IncomeDB {
     public List<Income> getAll() {
         List<Income> incomes = new ArrayList<>();
         if (con != null) {
-            String sql = "SELECT * FROM `savings`";
+            String sql = "SELECT * FROM `incomes`";
             try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int id = rs.getInt("id");
@@ -43,7 +43,7 @@ public class IncomeDB {
                     System.out.println("ID: " + id + " Nombre: " + name + " valor: " + value + " categoria: " + category);
                 }
             } catch (SQLException e) {
-                System.out.println("Error al visualizar Ahorro: " + e.getMessage());
+                System.out.println("Error al visualizar Ingreso: " + e.getMessage());
             }
         }
 

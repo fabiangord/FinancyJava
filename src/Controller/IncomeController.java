@@ -4,17 +4,21 @@ import java.math.BigInteger;
 import java.util.List;
 
 import Models.Income;
+import Service.BudgetService;
 import Service.IncomeService;
 
 public class IncomeController {
 private IncomeService service;
+private BudgetService serviceBudget;
 
     public IncomeController(){
         this.service = new IncomeService();
+        this.serviceBudget = new BudgetService();
     };
 
     public void add(String name, String category, BigInteger value) {
         service.add(name, category, value);
+        serviceBudget.add(name, value);
     }
 
     public List<Income> getAll(){

@@ -5,20 +5,16 @@ import java.util.List;
 
 import Models.Budget;
 import Service.BudgetService;
-import Service.IncomeService;
 
 public class BudgetController {
     private BudgetService service;
-    private IncomeService serviceIncome;
 
     public BudgetController(){
         this.service = new BudgetService();
-        this.serviceIncome = new IncomeService();
     };
 
-    public void add(String name, String category, BigInteger value) {
-        service.add(name, category, value);
-        serviceIncome.add(name, category, value);
+    public void add(String name, BigInteger value) {
+        service.add(name, value);
     }
 
     public List<Budget> getAll(){

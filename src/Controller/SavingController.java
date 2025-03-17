@@ -32,7 +32,7 @@ public class SavingController {
         return service.getOne(id);
     }
 
-    public BigInteger getOne(){
+    public BigInteger getTotal(){
         return service.getTotal();
     }
 }

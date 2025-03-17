@@ -14,8 +14,8 @@ public class BudgetService {
         this.database = new BudgetDB();
     };
 
-    public void add(String name, String category, BigInteger value) {
-        database.insert(name, category, value);
+    public void add(String name, BigInteger value) {
+        database.insert(name, value);
     }
 
     public List<Budget> getAll(){

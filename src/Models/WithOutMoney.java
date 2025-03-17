@@ -1,7 +1,6 @@
 package Models;
 
 import java.math.BigInteger;
-import java.time.LocalDate;
 
 import Helpers.Category;
 
@@ -10,7 +9,6 @@ public abstract class WithOutMoney {
     public String name;
     public BigInteger value;
     public Category category;
-    public LocalDate date = LocalDate.now();
 
     WithOutMoney(String name, BigInteger value, Category category) {
         this.name = name;

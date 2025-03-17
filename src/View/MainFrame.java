@@ -1,80 +1,128 @@
 package View;
-import Controller.SavingController;
+import View.components.ExpensesFrame;
+import View.components.IncomeFrame;
+import View.components.SavingFrame;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.*;
-import javax.swing.*;
 import java.math.BigInteger;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import javax.swing.*;
+
+import Controller.BudgetController;
+import Controller.ExpensesController;
+import Controller.SavingController;;
 
 
 public class MainFrame extends JFrame {
-    private JTextField nameField;
-    private JTextField valueField;
-    private JTextField categoryField;
-    private SavingController controllerSaving;
-
     public static void main(String[] args) {
         new MainFrame();
     }
+
     public MainFrame() {
         initialize();
+        setVisible(true);
     }
 
     public void initialize() {
+
+        setLocation(550, 130);
         setTitle("FinancyJava");
         setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 400));
         setLayout(null);
 
-        JLabel nameLabel = new JLabel("Nombre:");
-        nameLabel.setBounds(30, 110, 80, 25);
-        add(nameLabel);
+        JLabel titleLabel = new JLabel("Budget Actually...");
+        titleLabel.setBounds(150, 30, 200, 50);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        add(titleLabel);
 
-        nameField = new JTextField();
-        nameField.setBounds(110, 110, 200, 25);
-        add(nameField);
+        BigInteger total = new BudgetController().getTotal().subtract(new SavingController().getTotal());
+        System.out.println(total);
+        System.out.println(new SavingController().getTotal());
+        System.out.println(new ExpensesController().getTotal());
 
-        JLabel valueLabel = new JLabel("Valor:");
-        valueLabel.setBounds(30, 140, 80, 25);
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("es-CO"));
+        JLabel valueLabel = new JLabel(currencyFormatter.format(total.subtract(new ExpensesController().getTotal())).toString());
+        valueLabel.setBounds(180, 60, 200, 50);
+        valueLabel.setFont(new Font("Arial", Font.ITALIC, 18));
         add(valueLabel);
 
-        valueField = new JTextField();
-        valueField.setBounds(110, 140, 200, 25);
-        add(valueField);
+        JButton incomeButton = new JButton("Income");
+        incomeButton.setBounds(150, 150, 200, 50);
+        incomeButton.setFont(new Font("Arial", Font.BOLD, 16));
+        incomeButton.setForeground(Color.WHITE);
+        incomeButton.setBackground(new Color(52, 152, 219));
+        incomeButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        incomeButton.setFocusPainted(false);
+        incomeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(incomeButton);
 
-        JLabel categoryLabel = new JLabel("Categoria:");
-        categoryLabel.setBounds(30, 170, 80, 25);
-        add(categoryLabel);
-
-        categoryField = new JTextField();
-        categoryField.setBounds(110, 170, 200, 25);
-        add(categoryField);
-
-        JButton saveButton = new JButton("Guardar");
-        saveButton.setBounds(150, 300, 200, 50);
-        saveButton.setFont(new Font("Arial", Font.BOLD, 16));
-        saveButton.setForeground(Color.WHITE);
-        saveButton.setBackground(new Color(52, 152, 219));
-        saveButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-        saveButton.setFocusPainted(false);
-        saveButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        add(saveButton);
-
-        saveButton.addActionListener(new ActionListener() {
+        incomeButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText().trim();
-                String category = categoryField.getText().trim();
-                String valueText = valueField.getText().trim();
-                BigInteger value = new BigInteger(valueText);
-
-                controllerSaving = new SavingController();
-                controllerSaving.add(name, category, value);
-                JOptionPane.showMessageDialog(null, "Ahorro guardado con éxito!");
+            public void actionPerformed(ActionEvent e) { 
+                new IncomeFrame();
+                dispose();
             }
         });
 
-        setVisible(true);
+        JButton savingButton = new JButton("Saving");
+        savingButton.setBounds(150, 210, 200, 50);
+        savingButton.setFont(new Font("Arial", Font.BOLD, 16));
+        savingButton.setForeground(Color.WHITE);
+        savingButton.setBackground(new Color(52, 152, 219));
+        savingButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        savingButton.setFocusPainted(false);
+        savingButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(savingButton);
+
+        savingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                new SavingFrame();
+                dispose();
+            }
+        });
+
+        JButton expensesButton = new JButton("Expenses");
+        expensesButton.setBounds(150, 270, 200, 50);
+        expensesButton.setFont(new Font("Arial", Font.BOLD, 16));
+        expensesButton.setForeground(Color.WHITE);
+        expensesButton.setBackground(new Color(52, 152, 219));
+        expensesButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        expensesButton.setFocusPainted(false);
+        expensesButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(expensesButton);
+
+        expensesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                new ExpensesFrame();
+                dispose();
+            }
+        });
+
+        JButton budgetsButton = new JButton("Budgets");
+        budgetsButton.setBounds(150, 330, 200, 50);
+        budgetsButton.setFont(new Font("Arial", Font.BOLD, 16));
+        budgetsButton.setForeground(Color.WHITE);
+        budgetsButton.setBackground(new Color(52, 152, 219));
+        budgetsButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        budgetsButton.setFocusPainted(false);
+        budgetsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(budgetsButton);
+
+        budgetsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                
+            }
+        });
     }
 }

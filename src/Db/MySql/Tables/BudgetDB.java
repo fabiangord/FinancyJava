@@ -14,13 +14,12 @@ import Models.Budget;
 
 public class BudgetDB {
     private static Connection con = MySQL.connect();
-    public void insert(String name, String category, BigInteger value) {
+    public void insert(String name, BigInteger value) {
         if (con != null) {
-            String sql = "INSERT INTO budgets (name, value, category) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO budgets (name, value) VALUES (?, ?)";
             try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setString(1, name);
                 ps.setLong(2, value.longValue());
-                ps.setString(3, category);
                 ps.executeUpdate();
                 System.out.println("Presupuesto insertado correctamente.");
             } catch (SQLException e) {

@@ -1,5 +1,4 @@
-version: '3.9'
-
+version: '3.8'
 
 services:
   mysql:
@@ -9,11 +8,11 @@ services:
       MYSQL_DATABASE: JavaFinancy
       MYSQL_USER: fabian
       MYSQL_USER_PASSWORD: fabian
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+      - mysql:/var/lib/mysql
     ports:
       - "3306:3306"
-    volumes:
-      - mysql:/var/lib/mysql
-      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
 
 volumes:
   mysql:

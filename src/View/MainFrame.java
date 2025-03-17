@@ -70,7 +70,7 @@ public class MainFrame extends JFrame {
                 BigInteger value = new BigInteger(valueText);
 
                 controllerSaving = new SavingController();
-                controllerSaving.addSaving(name, category, value);
+                controllerSaving.add(name, category, value);
                 JOptionPane.showMessageDialog(null, "Ahorro guardado con éxito!");
             }
         });

@@ -3,7 +3,7 @@ package Db.LocalDatabase;
 import java.math.BigInteger;
 import java.util.List;
 
-import Models.Category;
+import Helpers.Category;
 import Models.Expense;
 
 public class ExpenseDatabase {

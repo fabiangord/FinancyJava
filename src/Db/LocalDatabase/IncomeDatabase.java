@@ -13,7 +13,7 @@ public List<Income> incomes;
 
     public Income getOne(String name) {
         for (Income income: incomes) {
-            if(income.budget.name.equals(name)){
+            if(income.name.equals(name)){
                 return income;
             }
         }
@@ -26,14 +26,14 @@ public List<Income> incomes;
     }
 
     public void delete (String name) {
-        incomes.removeIf(income -> income.budget.name.equals(name));
+        incomes.removeIf(income -> income.name.equals(name));
     }
 
     public void update (String beforeName, String afterName, BigInteger newValue) {
         for (Income income: incomes) {
-            if(income.budget.name.equals(beforeName)){
-                income.budget.name = afterName;
-                income.budget.value = newValue;
+            if(income.name.equals(beforeName)){
+                income.name = afterName;
+                income.value = newValue;
             }
         }
         

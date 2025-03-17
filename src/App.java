@@ -1,6 +1,7 @@
 import java.math.BigInteger;
 
 import Controller.BudgetController;
+import Controller.ExpensesController;
 import Controller.IncomeController;
 import Controller.SavingController;
 public class App {    public static void main(String[] args) throws Exception {
@@ -8,19 +9,33 @@ public class App {    public static void main(String[] args) throws Exception {
 
     //Saving
     SavingController controllerSaving = new SavingController();
-    //controllerSaving.addSaving("Juan Pepito", "TRANSPORTE", BigInteger.valueOf(10000));
-    //controllerSaving.updateSaving("Juan perez", BigInteger.valueOf(10000), "TRANSPORTE", 4);
-    //controllerSaving.deleteSaving(4);
-    //controllerSaving.getAllSaving();
-    controllerSaving.getOneSaving(1);
+    //controllerSaving.add("Juan Pepito", "TRANSPORTE", BigInteger.valueOf(10000));
+    //controllerSaving.update("Juan perez", BigInteger.valueOf(10000), "TRANSPORTE", 4);
+    //controllerSaving.delete(4);
+    //controllerSaving.getAll();
+    controllerSaving.getOne(1);
     
+    //Budget
     BudgetController controllerBudget = new BudgetController();
     //controllerBudget.addBudget("Juan Presupuestos", "TRANSPORTE", BigInteger.valueOf(10000));
-    //controllerBudget.getAllBudget();
+    //controllerBudget.update("Sueldo", BigInteger.valueOf(1000000), "SUELDO", 0);
+    // controllerBudget.delete(4);
+    // controllerBudget.getAll();
+    controllerBudget.getOne(1);
     
-    
-    // IncomeController controllerIncome = new IncomeController();
-    // controllerIncome.addsaving("Juan Ingresos", "TRANSPORTE", BigInteger.valueOf(10000));
-    // controllerIncome.getAllSaving();
+    // Income
+    IncomeController controllerIncome = new IncomeController();
+    // controllerIncome.add("Juan Ingresos", "TRANSPORTE", BigInteger.valueOf(10000));
+    // controllerIncome.update("Subsidio", BigInteger.valueOf(200000), "VIVIENDA", 0);
+    // controllerIncome.delete(3);
+    // controllerIncome.getAll();
+    controllerIncome.getOne(2);
+
+    ExpensesController controllerExpense = new ExpensesController();
+    // controllerExpense.add("Recibo 1", "ALIMENTOS", BigInteger.valueOf(300000));
+    // controllerExpense.update("Recibo 2", BigInteger.valueOf(40000), "TRANSPORTE", 0);
+    // controllerExpense.delete(1);
+    // controllerExpense.getAll();
+    controllerExpense.getOne(2);
 }
 }

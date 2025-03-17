@@ -2,20 +2,25 @@ package Models;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.UUID;
+
+import Helpers.Category;
 
 public abstract class WithOutMoney {
-    private String id = UUID.randomUUID().toString();
+    private int id;
     public String name;
     public BigInteger value;
-    public LocalDate date = LocalDate.now();
     public Category category;
+    public LocalDate date = LocalDate.now();
 
     WithOutMoney(String name, BigInteger value, Category category) {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,20 +1,27 @@
 package Models;
 import java.math.BigInteger;
-import java.util.UUID;
+
+import Helpers.Category;
 
 public class Saving {
-    private String id = UUID.randomUUID().toString();
+    private int id;
     public String name;
     public BigInteger value;
+    public Category category;
 
-    Saving(String name, BigInteger value) {
+    public Saving(String name, BigInteger value, Category category) {
         this.name = name;
         this.value = value;
+        this.category = category;
 
     }
 
-    public String getid(){
+    public int getid(){
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

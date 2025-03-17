@@ -1,6 +1,9 @@
 package Service;
 import java.math.BigInteger;
+import java.util.List;
+
 import Db.MySql.Tables.SavingDB;
+import Models.Saving;
 
 public class SavingService {
     private SavingDB database;
@@ -13,24 +16,28 @@ public class SavingService {
         return database;
     }
 
-    public void addsaving(String name, String category, BigInteger value) {
-        database.insertSaving(name, category, value);
+    public void add(String name, String category, BigInteger value) {
+        database.insert(name, category, value);
     }
 
-    public void getAllSaving(){
-        database.getAllSaving();
+    public List<Saving> getAll(){
+        return database.getAll();
     }
     
-    public void updateSaving(String name, BigInteger value, String category, int id){
-        database.updateSaving(name, value, category, id);
+    public void update(String name, BigInteger value, String category, int id){
+        database.update(name, value, category, id);
     }
 
-    public void deleteSaving(int id){
-        database.deleteSaving(id);
+    public void delete(int id){
+        database.delete(id);
     }
 
-    public void getOneSaving(int id){
-        database.getOneSaving(id);
+    public List<Saving> getOne(int id){
+        return database.getOne(id);
+    }
+
+    public BigInteger getTotal(){
+        return database.getTotal();
     }
 
 }

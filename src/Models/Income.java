@@ -1,14 +1,24 @@
 package Models;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class Income {
-    private String id = UUID.randomUUID().toString();
-    public Budget budget;
+    private int id;
+    public String name;
+    public BigInteger value;
     public LocalDate date = LocalDate.now();
 
-    public String getId() {
+    public Income(String name, BigInteger value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

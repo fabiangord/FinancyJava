@@ -1,7 +1,9 @@
 package Service;
 
 import java.math.BigInteger;
+import java.util.List;
 
+import Models.Income;
 import Db.MySql.Tables.IncomeDB;
 
 public class IncomeService {
@@ -11,11 +13,27 @@ public class IncomeService {
         this.database = new IncomeDB();
     };
 
-    public void addsaving(String name, String category, BigInteger value) {
-        database.insertSaving(name, category, value);
+    public void add(String name, String category, BigInteger value) {
+        database.insert(name, category, value);
     }
 
-    public void getAllSaving(){
-        database.getAllSaving();
+    public List<Income> getAll(){
+        return database.getAll();
+    }
+
+    public void update(String name, BigInteger value, String category, int id){
+        database.update(name, value, category, id);
+    }
+
+    public void delete(int id){
+        database.delete(id);
+    }
+
+    public List<Income> getOne(int id){
+        return database.getOne(id);
+    }
+
+    public BigInteger getTotal(){
+        return database.getTotal();
     }
 }

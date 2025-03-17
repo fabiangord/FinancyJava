@@ -1,18 +1,21 @@
 package Models;
 import java.math.BigInteger;
-import java.util.UUID;
 
 public class Budget {
-    private String id = UUID.randomUUID().toString();
+    private int id;
     public String name;
     public BigInteger value;
     
-    Budget(String name, BigInteger value){
+    public Budget(String name, BigInteger value){
         this.name = name;
         this.value = value;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

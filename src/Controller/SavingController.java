@@ -1,31 +1,38 @@
 package Controller;
 import java.math.BigInteger;
+import java.util.List;
+
+import Models.Saving;
 import Service.SavingService;
 
 public class SavingController {
-    private SavingService database;
+    private SavingService service;
 
     public SavingController(){
-        this.database = new SavingService();
+        this.service = new SavingService();
     };
 
-    public void addSaving(String name, String category, BigInteger value) {
-        database.addsaving(name, category, value);
+    public void add(String name, String category, BigInteger value) {
+        service.add(name, category, value);
     }
 
-    public void getAllSaving(){
-        database.getAllSaving();
+    public List<Saving> getAll(){
+        return service.getAll();
     } 
 
-    public void updateSaving(String name, BigInteger value, String category, int id){
-        database.updateSaving(name, value, category, id);
+    public void update(String name, BigInteger value, String category, int id){
+        service.update(name, value, category, id);
     }
 
-    public void deleteSaving(int id){
-        database.deleteSaving(id);
+    public void delete(int id){
+        service.delete(id);
     }
 
-    public void getOneSaving(int id){
-        database.getOneSaving(id);
+    public List<Saving> getOne(int id){
+        return service.getOne(id);
+    }
+
+    public BigInteger getOne(){
+        return service.getTotal();
     }
 }

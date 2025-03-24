@@ -35,4 +35,8 @@ public class SavingController {
     public BigInteger getTotal(){
         return service.getTotal();
     }
+
+    public void exportCSV(){
+        service.exportCSV();
+    }
 }

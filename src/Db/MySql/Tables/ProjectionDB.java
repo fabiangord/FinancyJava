@@ -1,7 +1,9 @@
 package Db.MySql.Tables;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,26 @@ public class ProjectionDB {
 
     public List<Projection> getAll(){
         List<Projection> projections = new ArrayList<>();
-        return projections;
+        if (con != null) {
+            String query = "SELECT * FROM projections;";
+            try (PreparedStatement ps = con.prepareStatement(query); ResultSet rs = ps.executeQuery()){
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    BigInteger projectedBudgets = BigInteger.valueOf(rs.getInt("projected_budgets"));
+                    BigInteger projectedExpenses = BigInteger.valueOf(rs.getInt("projected_expenses"));
+                    BigInteger projectedIncomes = BigInteger.valueOf(rs.getInt("projected_incomes"));
+                    BigInteger projectedSavings = BigInteger.valueOf(rs.getInt("projected_savings"));
+                    int months = rs.getInt("month");
+
+                    Projection projection = new Projection(projectedBudgets, projectedExpenses, projectedIncomes, projectedSavings, months);
+
+                    projections.add(projection);
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al traer valores de proyección");
+            }
+        }
+        return (projections != null) ? projections : new ArrayList<>();
     }
 
     public void update(){

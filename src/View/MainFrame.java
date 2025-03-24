@@ -18,8 +18,8 @@ import javax.swing.*;
 
 import Controller.BudgetController;
 import Controller.ExpensesController;
-import Controller.SavingController;;
-
+import Controller.ProjectionsController;
+import Controller.SavingController;
 
 public class MainFrame extends JFrame {
     public static void main(String[] args) {
@@ -141,10 +141,13 @@ public class MainFrame extends JFrame {
         
         projectionsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                new ProjectionsFrame();
+            public void actionPerformed(ActionEvent e) {
+                ProjectionsFrame projectionsFrame = new ProjectionsFrame();
+                ProjectionsController projectionsController = new ProjectionsController();
+                projectionsFrame.showProjections(projectionsController.getAll());
                 dispose();
             }
         });
+        
     }
 }

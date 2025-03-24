@@ -1,50 +1,43 @@
 package Service;
-
+import java.math.BigInteger;
 import java.util.List;
 
 import Db.MySql.Tables.ProjectionDB;
-import Models.Budget;
-import Models.Expense;
-import Models.Income;
-import Models.Projection;
-import Models.Saving;
+import Models.*;
 
 public class ProjectionService {
     public ProjectionDB database;
-
     private Projection projections;
 
-    private BudgetService budgetService;
-    private ExpenseService expenseService;
-    private IncomeService incomeService;
-    private SavingService savingService;
-
-
-    public ProjectionService(int months){
+    public ProjectionService(BudgetService budgetService, ExpenseService expenseService, IncomeService incomeService, SavingService savingService){
 
         this.database = new ProjectionDB();
-
-        this.budgetService = new BudgetService();
-        this.expenseService = new ExpenseService();
-        this.incomeService = new IncomeService();
-        this.savingService = new SavingService();
     
-        List<Budget> budgets = budgetService.getAll();
-        List<Expense> expenses = expenseService.getAll();
-        List<Income> incomes = incomeService.getAll();
-        List<Saving> savings  = savingService.getAll();
+        List<Budget> budgetList = budgetService.getAll();
+        List<Expense> expenseList = expenseService.getAll();
+        List<Income> incomeList = incomeService.getAll();
+        List<Saving> savingList  = savingService.getAll();
 
-        this.projections  = new Projection(budgets.get(0).value, expenses.get(0).value, incomes.get(0).value, savings.get(0).value, months);
-    
+        this.projections  = new Projection
+        (
+            calculateProjection(budgetList.get(budgetList.size() - 1).value, 12), 
+            calculateProjection(expenseList.get(expenseList.size() - 1).value, 12),
+            calculateProjection(incomeList.get(incomeList.size() - 1).value, 12),
+            calculateProjection(savingList.get(savingList.size() - 1).value,12), 
+            12
+        );
     }
 
     public void insert(){
         database.insert(projections);
     }
 
-    public List<Projection> getAll(){
-        List<Projection> projections = database.getAll();
-        return projections;
+    public Projection getAll(){
+        return this.projections;
+    }
+
+    private BigInteger calculateProjection(BigInteger value, int months) {
+        return value.multiply(BigInteger.valueOf(months));
     }
 
     public void update(){

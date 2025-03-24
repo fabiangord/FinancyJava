@@ -1,66 +1,100 @@
 package View.components;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.math.BigInteger;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+
+import org.jfree.chart.*;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import Models.*;
 import View.MainFrame;
 
 public class ProjectionsFrame extends JFrame{
 
-    public DefaultTableModel tableModel;
-    private JTable table;
+    private JPanel chartContainer;
 
     public ProjectionsFrame(){
         initialize();
-        setVisible(true);
     }
 
     public void initialize(){
         setLocation(550, 60);
-        setTitle("FinancyJava");
-        setSize(500, 700);
+        setTitle("FinancyJava - Dashboard de Proyecciones");
+        setSize(1500, 700);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(300, 400));
-        setLayout(null);
+        setLayout(new BorderLayout(10,10));
 
-
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton backButton = new JButton("Volver");
-        backButton.setBounds(15, 26, 50, 15);
         backButton.setFont(new Font("Arial", Font.BOLD, 10));
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(new Color(52, 152, 219));
-        backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        backButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
         backButton.setFocusPainted(false);
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        add(backButton);
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                new MainFrame();
-                dispose();
-            }
+        backButton.addActionListener(e -> {
+            new MainFrame();
+            dispose();
         });
+
+        topPanel.add(backButton);
+        add(topPanel, BorderLayout.NORTH);
+
+        chartContainer = new JPanel();
+        chartContainer.setLayout(new GridLayout(2,2,8,8));
+        add(chartContainer, BorderLayout.CENTER);
+        setVisible(true);
     }
 
     public void showProjections(Projection projections){
-        String[] columns = {"projected_budgets", "projected_expenses", "projected_incomes", "projected_savings", "months"};
-        tableModel = new DefaultTableModel(columns, 0);
-        table = new JTable(tableModel);
-        table.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(50, 380, 400, 200);
-        add(scrollPane);
+        chartContainer.removeAll();
 
-        setVisible(true);
+        Object[][] chartInfo = {
+            {"Budgets", projections.projectedBudgets, projections.months},
+            {"Expenses", projections.projectedExpenses, projections.months},
+            {"Incomes", projections.projectedIncomes, projections.months},
+            {"Savings", projections.projectedSavings, projections.months}
+        };
 
+        for(Object[] info : chartInfo){
+            String title = (String) info[0];
+            BigInteger value = (BigInteger) info[1];
+            int months = (int) info[2];
 
-        tableModel.setRowCount(0);
-        Object[] row = {projections.projectedBudgets, projections.projectedExpenses, projections.projectedIncomes, projections.projectedSavings, projections.months};
-        tableModel.addRow(row);
+            DefaultCategoryDataset dataset = crearteDataSet(value, months, title);
+            projectionChart(dataset, title);
+        }
+
+        revalidate();
+        repaint();
+    }
+
+    private DefaultCategoryDataset crearteDataSet(BigInteger projectedValue, int months, String title){
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (int month = 1; month <= months; month++) {
+            BigInteger value = projectedValue.multiply(BigInteger.valueOf(month)).divide(BigInteger.valueOf(months));
+            dataset.addValue(value.doubleValue(), title, "Mes " + month);
+        }
+        return dataset;
+    }
+
+    private void projectionChart(DefaultCategoryDataset dataset, String title){
+
+        JFreeChart chart = ChartFactory.createStackedBarChart(
+            "Grafica de " + title, "Meses", "Valores", dataset, 
+            PlotOrientation.VERTICAL, true, true, false
+        );
+
+        ChartPanel panel = new ChartPanel(chart);
+        chartContainer.add(panel);
+
     }
     
 }

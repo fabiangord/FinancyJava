@@ -27,3 +27,12 @@ CREATE TABLE expenses (
     category ENUM('AHORRO', 'INVERSION', 'OTRO') NOT NULL,
     date DATE NOT NULL DEFAULT (CURDATE())
 );
+
+CREATE TABLE projections (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    projected_budgets BIGINT NOT NULL,
+    projected_expenses BIGINT NOT NULL,
+    projected_incomes BIGINT NOT NULL,
+    projected_savings BIGINT NOT NULL,
+    months INT(12) NOT NULL
+)

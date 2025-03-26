@@ -2,6 +2,7 @@ package View;
 import View.components.BudgetsFrame;
 import View.components.ExpensesFrame;
 import View.components.IncomeFrame;
+import View.components.ProjectionsFrame;
 import View.components.SavingFrame;
 
 import java.awt.Color;
@@ -17,8 +18,8 @@ import javax.swing.*;
 
 import Controller.BudgetController;
 import Controller.ExpensesController;
-import Controller.SavingController;;
-
+import Controller.ProjectionsController;
+import Controller.SavingController;
 
 public class MainFrame extends JFrame {
     public static void main(String[] args) {
@@ -126,5 +127,27 @@ public class MainFrame extends JFrame {
                 dispose();
             }
         });
+
+        JButton projectionsButton = new JButton("Projections");
+        projectionsButton.setBounds(150, 390, 200, 50);
+        projectionsButton.setFont(new Font("Arial", Font.BOLD, 16));
+        projectionsButton.setForeground(Color.WHITE);
+        projectionsButton.setBackground(new Color(52,152,219));
+        projectionsButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionsButton.setFocusPainted(false);
+        projectionsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(projectionsButton);
+        
+        
+        projectionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProjectionsFrame projectionsFrame = new ProjectionsFrame();
+                ProjectionsController projectionsController = new ProjectionsController();
+                projectionsFrame.showProjections(projectionsController.getAll());
+                dispose();
+            }
+        });
+        
     }
 }

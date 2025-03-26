@@ -12,6 +12,8 @@ public abstract class WithOutMoney {
 
     WithOutMoney(String name, BigInteger value, Category category) {
         this.name = name;
+        this.value = value;
+        this.category = category;
     }
 
     public int getId() {

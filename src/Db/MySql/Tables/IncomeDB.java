@@ -37,10 +37,15 @@ public class IncomeDB {
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     String name = rs.getString("name");
-                    int value = rs.getInt("value");
+                    BigInteger value = BigInteger.valueOf(rs.getInt("value"));
                     String category = rs.getString("category");
 
                     System.out.println("ID: " + id + " Nombre: " + name + " valor: " + value + " categoria: " + category);
+
+                    Income income = new Income(name, value);
+
+                    income.setId(id);
+                    incomes.add(income);
                 }
             } catch (SQLException e) {
                 System.out.println("Error al visualizar Ingreso: " + e.getMessage());

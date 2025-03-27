@@ -1,10 +1,14 @@
 package View;
+import Controller.BudgetController;
+import Controller.ExpensesController;
+import Controller.ProjectionsController;
+import Controller.SavingController;
 import View.components.BudgetsFrame;
 import View.components.ExpensesFrame;
 import View.components.IncomeFrame;
+import View.components.InvestmentFrame;
 import View.components.ProjectionsFrame;
 import View.components.SavingFrame;
-
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -13,13 +17,7 @@ import java.awt.event.*;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
-
 import javax.swing.*;
-
-import Controller.BudgetController;
-import Controller.ExpensesController;
-import Controller.ProjectionsController;
-import Controller.SavingController;
 
 public class MainFrame extends JFrame {
     public static void main(String[] args) {
@@ -148,6 +146,25 @@ public class MainFrame extends JFrame {
                 dispose();
             }
         });
+
+        JButton investmentButton = new JButton("Investments");
+        investmentButton.setBounds(150, 450, 200, 50);
+        investmentButton.setFont(new Font("Arial", Font.BOLD, 16));
+        investmentButton.setForeground(Color.WHITE);
+        investmentButton.setBackground(new Color(52, 152, 219));
+        investmentButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        investmentButton.setFocusPainted(false);
+        investmentButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(investmentButton);
+
+        investmentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                new InvestmentFrame();
+                dispose();
+            }
+        });
+
         
     }
 }

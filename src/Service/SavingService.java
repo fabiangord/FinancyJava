@@ -1,6 +1,11 @@
 package Service;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import com.opencsv.CSVWriter;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import Db.MySql.Tables.SavingDB;
 import Models.Saving;
@@ -38,6 +43,36 @@ public class SavingService {
 
     public BigInteger getTotal(){
         return database.getTotal();
+    }
+
+    public void exportCSV() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar reporte CSV");
+        fileChooser.setSelectedFile(new java.io.File("reporteSaving.csv"));
+        int userSelection = fileChooser.showSaveDialog(null);
+        if (userSelection != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+        List<Saving> savings = database.getAll();
+
+        try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
+
+            writer.writeNext(new String[]{"ID", "Nombre", "Categoria", "Valor"});
+            for (Saving saving : savings) {
+                writer.writeNext(new String[]{
+                    String.valueOf(saving.getId()),
+                    saving.getName(),
+                    saving.getCategory().toString(),
+                    saving.getValue().toString()
+                });
+            }
+            JOptionPane.showMessageDialog(null, "Reporte guardado en:\n" + filePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

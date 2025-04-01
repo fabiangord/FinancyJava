@@ -4,7 +4,6 @@ import Controller.SavingController;
 import Models.Saving;
 import View.MainFrame;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -14,12 +13,9 @@ import java.util.List;
 public class SavingFrame extends JFrame {
     private JTextField nameField;
     private JTextField valueField;
-    private JTextField categoryField;
-    private JLabel allSavingLabel;
     private SavingController controllerSaving;
     private JTable table;
     private DefaultTableModel tableModel;
-    private JComboBox<String> categoryComboBox;
 
     public static void main(String[] args) {
         new SavingFrame();
@@ -124,6 +120,20 @@ public class SavingFrame extends JFrame {
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JButton csvButton = new JButton("Descargar csv");
+        csvButton.setBounds(380, 26, 90, 15);
+        csvButton.setFont(new Font("Arial", Font.BOLD, 10));
+        csvButton.setForeground(Color.WHITE);
+        csvButton.setBackground(new Color(52, 152, 219));
+        csvButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        csvButton.setFocusPainted(false);
+        csvButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(csvButton);
+
+        csvButton.addActionListener(e -> {
+            controllerSaving.exportCSV();
+        });
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(50, 380, 400, 200);

@@ -9,6 +9,7 @@ CREATE TABLE incomes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     value BIGINT NOT NULL,
+    category ENUM('AHORRO', 'INVERSION', 'TRANSPORTE', 'VIVIENDA') NOT NULL,
     date DATE NOT NULL DEFAULT (CURDATE())
 );
 
@@ -27,3 +28,41 @@ CREATE TABLE expenses (
     category ENUM('AHORRO', 'INVERSION', 'OTRO') NOT NULL,
     date DATE NOT NULL DEFAULT (CURDATE())
 );
+
+CREATE TABLE projections (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    projected_budgets BIGINT NOT NULL,
+    projected_expenses BIGINT NOT NULL,
+    projected_incomes BIGINT NOT NULL,
+    projected_savings BIGINT NOT NULL,
+    months INT(12) NOT NULL
+);
+
+INSERT INTO budgets (name, value) VALUES
+('Presupuesto Mensual', 1000000),
+('Presupuesto Anual', 12000000),
+('Presupuesto Extra', 500000);
+
+-- Tabla incomes
+INSERT INTO incomes (name, value) VALUES
+('Salario', 1500000),
+('Bonificación', 200000),
+('Freelance', 800000);
+
+-- Tabla savings
+INSERT INTO savings (name, value, category) VALUES
+('Fondo de Emergencia', 500000, 'AHORRO'),
+('Inversión en Bolsa', 1000000, 'INVERSION'),
+('Ahorro para Vivienda', 2000000, 'VIVIENDA');
+
+-- Tabla expenses
+INSERT INTO expenses (name, value, category) VALUES
+('Compra en Supermercado', 200000, 'OTRO'),
+('Pago de Servicios', 300000, 'OTRO'),
+('Inversión en Capacitación', 150000, 'INVERSION');
+
+-- Tabla projections
+INSERT INTO projections (projected_budgets, projected_expenses, projected_incomes, projected_savings, months) VALUES
+(1000000, 800000, 1200000, 400000, 1),
+(5000000, 4500000, 6000000, 1500000, 6),
+(12000000, 10000000, 15000000, 5000000, 12);

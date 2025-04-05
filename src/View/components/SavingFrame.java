@@ -74,7 +74,7 @@ public class SavingFrame extends JFrame {
         categoryLabel.setBounds(90, 170, 80, 25);
         add(categoryLabel);
 
-        String[] categories = {"", "VIVIENDA", "TRANSPORTE", "ALIMENTOS", "SUELDO"};
+        String[] categories = {"", "VIVIENDA", "TRANSPORTE", "ALIMENTOS", "SUELDO", "INVERSION", "AHORRO", "OTRO"};
         JComboBox<String> categoryComboBox = new JComboBox<>(categories);
         categoryComboBox.setBounds(150, 170, 200, 25);
         add(categoryComboBox);
@@ -143,7 +143,6 @@ public class SavingFrame extends JFrame {
     }
 
     private void allSavings() {
-        controllerSaving = new SavingController();
         List<Saving> results = controllerSaving.getAll();
         tableModel.setRowCount(0);
     

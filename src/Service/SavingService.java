@@ -15,7 +15,7 @@ public class SavingService {
 
     public SavingService(){
         this.database = new SavingDB();
-    };
+    }
 
     public SavingDB getDatabase() {
         return database;
@@ -48,7 +48,7 @@ public class SavingService {
     public void exportCSV() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Guardar reporte CSV");
-        fileChooser.setSelectedFile(new java.io.File("reporteSaving.csv"));
+        fileChooser.setSelectedFile(new java.io.File("reportSaving.csv"));
         int userSelection = fileChooser.showSaveDialog(null);
         if (userSelection != JFileChooser.APPROVE_OPTION) {
             return;

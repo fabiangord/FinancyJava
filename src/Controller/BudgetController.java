@@ -36,4 +36,8 @@ public class BudgetController {
     public BigInteger getTotal(){
         return service.total();
     }
+
+    public void exportCSV(){
+        service.exportCSV();
+    }
 }

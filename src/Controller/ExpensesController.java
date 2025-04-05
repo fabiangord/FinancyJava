@@ -36,4 +36,8 @@ private ExpenseService service;
     public BigInteger getTotal(){
         return service.getTotal();
     }
+
+    public void exportCSV(){
+        service.exportCSV();
+    }
 }

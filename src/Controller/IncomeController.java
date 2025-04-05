@@ -40,4 +40,8 @@ private BudgetService serviceBudget;
     public BigInteger getTotal(){
         return service.getTotal();
     }
+
+    public void exportCSV(){
+        service.exportCSV();
+    }
 }

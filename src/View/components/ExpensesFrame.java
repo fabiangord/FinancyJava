@@ -3,9 +3,11 @@ package View.components;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+import javax.swing.table.DefaultTableModel;
+import Models.Expense;
 import Controller.ExpensesController;
 import View.MainFrame;
+import java.util.List;
 
 import java.math.BigInteger;
 
@@ -14,11 +16,14 @@ public class ExpensesFrame extends JFrame{
     private JTextField valueField;
     private JTextField categoryField;
     private ExpensesController expensesController;
+    private JTable table;
+    private DefaultTableModel tableModel;
 
     public static void main(String[] args) {
         new ExpensesFrame();
     }
     public ExpensesFrame() {
+        this.expensesController = new ExpensesController();
         initialize();
     }
 
@@ -73,9 +78,10 @@ public class ExpensesFrame extends JFrame{
         categoryLabel.setBounds(90, 170, 80, 25);
         add(categoryLabel);
 
-        categoryField = new JTextField();
-        categoryField.setBounds(150, 170, 200, 25);
-        add(categoryField);
+        String[] categories = {"", "VIVIENDA", "TRANSPORTE", "ALIMENTOS", "SUELDO", "INVERSION", "AHORRO", "OTRO"};
+        JComboBox<String> categoryComboBox = new JComboBox<>(categories);
+        categoryComboBox.setBounds(150, 170, 200, 25);
+        add(categoryComboBox);
 
         JButton saveButton = new JButton("Guardar");
         saveButton.setBounds(150, 230, 200, 50);
@@ -94,13 +100,56 @@ public class ExpensesFrame extends JFrame{
                 String valueText = valueField.getText().trim();
                 BigInteger value = new BigInteger(valueText);
                 
-                expensesController = new ExpensesController();
                 expensesController.add(name, category, value);
                 JOptionPane.showMessageDialog(null, "Gasto guardado con éxito!");
             }
         });
         add(saveButton);
 
+            JButton allExpense = new JButton("Ver Ahorros");
+        allExpense.setBounds(150, 300, 200, 50);
+        allExpense.setFont(new Font("Arial", Font.BOLD, 16));
+        allExpense.setForeground(Color.WHITE);
+        allExpense.setBackground(new Color(52, 152, 219));
+        allExpense.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        allExpense.setFocusPainted(false);
+        allExpense.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        allExpense.addActionListener(e -> allExpense());
+        add(allExpense);
+
+        String[] columns = {"ID", "Nombre", "Valor", "Categoria"};
+        tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JButton csvButton = new JButton("Descargar csv");
+        csvButton.setBounds(380, 26, 90, 15);
+        csvButton.setFont(new Font("Arial", Font.BOLD, 10));
+        csvButton.setForeground(Color.WHITE);
+        csvButton.setBackground(new Color(52, 152, 219));
+        csvButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        csvButton.setFocusPainted(false);
+        csvButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(csvButton);
+
+        csvButton.addActionListener(e -> {
+            expensesController.exportCSV();
+        });
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 380, 400, 200);
+        add(scrollPane);
+
         setVisible(true);
+    }
+
+    private void allExpense() {
+        List<Expense> results = expensesController.getAll();
+        tableModel.setRowCount(0);
+    
+        for (Expense expense : results) {
+            Object[] row = {expense.getId(), expense.name, expense.value, expense.category};
+            tableModel.addRow(row);
+        }
     }
 }

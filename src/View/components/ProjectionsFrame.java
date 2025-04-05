@@ -56,10 +56,10 @@ public class ProjectionsFrame extends JFrame{
         chartContainer.removeAll();
 
         Object[][] chartInfo = {
-            {"Budgets", projections.projectedBudgets, projections.months},
-            {"Expenses", projections.projectedExpenses, projections.months},
-            {"Incomes", projections.projectedIncomes, projections.months},
-            {"Savings", projections.projectedSavings, projections.months}
+            {"Budgets", 1, projections.months},
+            {"Expenses", 1, projections.months},
+            {"Incomes", 1, projections.months},
+            {"Savings", 1, projections.months}
         };
 
         for(Object[] info : chartInfo){

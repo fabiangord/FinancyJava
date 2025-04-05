@@ -1,26 +1,30 @@
 package Controller;
 
-import Models.Projection;
+import java.math.BigInteger;
+import java.util.Map;
 import Service.*;
 
 public class ProjectionsController {
     private final ProjectionService projectionService;
 
     public ProjectionsController() {
-        BudgetService budgetService = new BudgetService();
-        ExpenseService expenseService = new ExpenseService();
-        IncomeService incomeService = new IncomeService();
-        SavingService savingService = new SavingService();
-
-        this.projectionService = new ProjectionService(budgetService, expenseService, incomeService, savingService);
+        this.projectionService = new ProjectionService();
     }
 
-    public void insert(){
-        projectionService.insert();
+    public Map<String, Object> calculateBudget(int months, BigInteger goal) {
+        return this.projectionService.calculateBudget(months, goal);
     }
 
-    public Projection getAll(){ 
-        return projectionService.getAll();
+    public Map<String, Object> calculateExpense(int months, BigInteger goal) {
+        return this.projectionService.calculateExpense(months, goal);
+    }
+
+    public Map<String, Object> calculateIncome(int months, BigInteger goal) {
+        return this.projectionService.calculateIncome(months, goal);
+    }
+
+    public Map<String, Object> calculateSaving(int months, BigInteger goal) {
+        return this.projectionService.calculateSaving(months, goal);
     }
 
 

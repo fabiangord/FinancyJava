@@ -29,6 +29,15 @@ CREATE TABLE expenses (
     date DATE NOT NULL DEFAULT (CURDATE())
 );
 
+CREATE TABLE investments(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    concept varchar(50) NOT NULL, 
+    investment BIGINT NOT NULL, 
+    interest float NOT NULL, 
+    months int NOT NULL, 
+    feeBack BIGINT
+);
+
 CREATE TABLE projections (
     id INT AUTO_INCREMENT PRIMARY KEY,
     projected_budgets BIGINT NOT NULL,

@@ -51,8 +51,6 @@ public class ProjectionService {
 
         Projection projection = new Projection( expenses.get(0).getId(), historicalValues, months, goal);
 
-        this.database.insert(projection);
-
         Map<String, Object> calculateProjection = calculateProjection(projection, "Expenses");
 
         return calculateProjection;

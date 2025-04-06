@@ -142,7 +142,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 ProjectionsFrame projectionsFrame = new ProjectionsFrame();
                 ProjectionsController projectionsController = new ProjectionsController();
-                projectionsFrame.showProjections(projectionsController.getAll());
+                projectionsFrame.showProjections(projectionsController.calculateBudget(10, BigInteger.valueOf(180000)));
                 dispose();
             }
         });

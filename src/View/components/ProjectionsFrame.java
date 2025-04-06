@@ -2,6 +2,7 @@ package View.components;
 
 import java.awt.*;
 import java.math.BigInteger;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -51,25 +52,27 @@ public class ProjectionsFrame extends JFrame{
         setVisible(true);
     }
 
-    public void showProjections(Projection projections){
+    public void showProjections(Map<String, Object>  projections){
 
         chartContainer.removeAll();
 
-        Object[][] chartInfo = {
+        System.out.println(projections);
+
+        /*Object[][] chartInfo = {
             {"Budgets", 1, projections.months},
             {"Expenses", 1, projections.months},
             {"Incomes", 1, projections.months},
             {"Savings", 1, projections.months}
         };
 
-        for(Object[] info : chartInfo){
+        for(Object[] info : projections){
             String title = (String) info[0];
-            BigInteger value = (BigInteger) info[1];
+            BigInteger value = (BigInteger) info[1];    
             int months = (int) info[2];
 
             DefaultCategoryDataset dataset = crearteDataSet(value, months, title);
             projectionChart(dataset, title);
-        }
+        }*/
 
         revalidate();
         repaint();

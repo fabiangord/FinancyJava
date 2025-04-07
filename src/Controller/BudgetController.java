@@ -29,6 +29,10 @@ public class BudgetController {
         service.delete(id);
     }
 
+    public void deleteAll(){
+        service.deleteAll();
+    }
+
     public List<Budget> getOne(int id){
         return service.getOne(id);
     }

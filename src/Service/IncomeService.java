@@ -36,6 +36,10 @@ public class IncomeService {
         database.delete(id);
     }
 
+    public void deleteAll(){
+        database.deleteAll();
+    }
+
     public List<Income> getOne(int id){
         return database.getOne(id);
     }

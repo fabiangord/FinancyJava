@@ -37,6 +37,10 @@ public class SavingService {
         database.delete(id);
     }
 
+    public void deleteAll(){
+        database.deleteAll();
+    }
+
     public List<Saving> getOne(int id){
         return database.getOne(id);
     }
@@ -63,9 +67,9 @@ public class SavingService {
             for (Saving saving : savings) {
                 writer.writeNext(new String[]{
                     String.valueOf(saving.getId()),
-                    saving.getName(),
-                    saving.getCategory().toString(),
-                    saving.getValue().toString()
+                    saving.name,
+                    saving.category.toString(),
+                    saving.value.toString()
                 });
             }
             JOptionPane.showMessageDialog(null, "Reporte guardado en:\n" + filePath);

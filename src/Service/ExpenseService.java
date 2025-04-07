@@ -36,6 +36,11 @@ public class ExpenseService {
         database.delete(id);
     }
 
+    public void deleteAll(){
+        database.deleteAll();
+    }
+
+
     public List<Expense> getOne(int id){
         return database.getOne(id);
     }

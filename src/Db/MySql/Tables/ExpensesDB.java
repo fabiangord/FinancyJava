@@ -87,6 +87,18 @@ public class ExpensesDB {
         }
     }
 
+    public void deleteAll(){
+        if(con != null){
+            String sql = "DELETE FROM expenses";
+            try (PreparedStatement ps = con.prepareStatement(sql)){
+                ps.executeUpdate();
+                System.out.println("All deleted!");
+            } catch (Exception e) {
+                System.out.println("Error deleting income: " + e.getMessage());
+            }
+        }
+    }
+
     public List<Expense> getOne(int id){
         List<Expense> expenses = new ArrayList<>();
         if(con != null){

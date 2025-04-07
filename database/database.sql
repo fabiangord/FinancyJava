@@ -9,7 +9,7 @@ CREATE TABLE incomes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     value BIGINT NOT NULL,
-    category ENUM('AHORRO', 'INVERSION', 'TRANSPORTE', 'VIVIENDA') NOT NULL,
+    category ENUM("DWELLING", "TRANSPORT", "FOOD", "SALARY", "INVERSION", "INCOME", "OTHER") NOT NULL,
     date DATE NOT NULL DEFAULT (CURDATE())
 );
 
@@ -17,7 +17,7 @@ CREATE TABLE savings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     value BIGINT NOT NULL,
-    category ENUM('AHORRO', 'INVERSION', 'TRANSPORTE', 'VIVIENDA') NOT NULL,
+    category ENUM("DWELLING", "TRANSPORT", "FOOD", "SALARY", "INVERSION", "INCOME", "OTHER") NOT NULL,
     date DATE NOT NULL DEFAULT (CURDATE())
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     value BIGINT NOT NULL,
-    category ENUM('AHORRO', 'INVERSION', 'OTRO') NOT NULL,
+    category ENUM("DWELLING", "TRANSPORT", "FOOD", "SALARY", "INVERSION", "INCOME", "OTHER") NOT NULL,
     date DATE NOT NULL DEFAULT (CURDATE())
 );
 
@@ -60,14 +60,14 @@ INSERT INTO incomes (name, value) VALUES
 
 -- Tabla savings
 INSERT INTO savings (name, value, category) VALUES
-('Fondo de Emergencia', 500000, 'AHORRO'),
+('Fondo de Emergencia', 500000, 'INCOME'),
 ('Inversión en Bolsa', 1000000, 'INVERSION'),
-('Ahorro para Vivienda', 2000000, 'VIVIENDA');
+('Ahorro para Vivienda', 2000000, 'DWELLING');
 
 -- Tabla expenses
 INSERT INTO expenses (name, value, category) VALUES
-('Compra en Supermercado', 200000, 'OTRO'),
-('Pago de Servicios', 300000, 'OTRO'),
+('Compra en Supermercado', 200000, 'OTHER'),
+('Pago de Servicios', 300000, 'OTHER'),
 ('Inversión en Capacitación', 150000, 'INVERSION');
 
 -- Tabla projections

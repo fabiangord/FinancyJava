@@ -149,7 +149,7 @@ public class InvestmentFrame extends JFrame{
                     controllerInvestment.add(conceptF, investment, interest, months, result);
                     JOptionPane.showMessageDialog(null, "Your feedback is: $" +result);
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Please verify that all the fields are filled"  +ex);
+                    JOptionPane.showMessageDialog(null, "Please verify that all the fields are filled" +ex);
                 } catch (Exception e2){
                     JOptionPane.showMessageDialog(null, e2);
                     e2.printStackTrace();
@@ -208,7 +208,7 @@ public class InvestmentFrame extends JFrame{
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#48A6A7")));
         add(scrollPane);
 
-        JButton allIncome = new JButton("Get Savings");
+        JButton allIncome = new JButton("Get Invesments");
         allIncome.setBounds(150, 570, 200, 50);
         allIncome.setFont(new Font("Arial", Font.BOLD, 16));
         allIncome.setForeground(Color.WHITE);

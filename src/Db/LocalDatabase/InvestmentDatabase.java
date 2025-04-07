@@ -13,15 +13,17 @@ public class InvestmentDatabase {
        return investments;
     }
 
-    public long investmentResult(String concept, int goal, 
-                                             long investment, float interest, 
+    public BigDecimal investmentResult(String concept, int goal, 
+                                 BigDecimal investment, float interest, 
                                              int months){
         float realInterest = interest/100;
-        long ordInterest = (long) ((investment * months * realInterest) / 12);
-       
-        return ordInterest;
+        BigDecimal percent = new BigDecimal(realInterest);
+        BigDecimal months_int = new BigDecimal(months);
+        BigDecimal months_year = new BigDecimal(12);
+        ordInterest = (investment.multiply(months_int).multiply(percent)).divide(months_year, RoundingMode.HALF_DOWN);
+        return ordInterest.setScale(4, RoundingMode.HALF_DOWN);
     }
-        public BigDecimal investmentResult2(String concept, 
+    public BigDecimal investmentResult2(String concept, 
                                              BigDecimal investment, float interest, 
                                              int months){
         float realInterest = interest/100;
@@ -29,6 +31,6 @@ public class InvestmentDatabase {
         BigDecimal months_int = new BigDecimal(months);
         BigDecimal months_year = new BigDecimal(12);
         ordInterest = (investment.multiply(months_int).multiply(percent)).divide(months_year, RoundingMode.HALF_DOWN);
-        return ordInterest.setScale(6, RoundingMode.HALF_DOWN);
+        return ordInterest.setScale(4, RoundingMode.HALF_DOWN);
     }
 }

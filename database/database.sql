@@ -47,6 +47,14 @@ CREATE TABLE projections (
     months INT(12) NOT NULL
 );
 
+CREATE TABLE investments (
+    concept varchar(100) PRIMARY KEY NOT NULL,
+    investment BIGINT,
+    interest float,
+    months int,
+    feeback BIGINT
+);
+
 INSERT INTO budgets (name, value) VALUES
 ('Presupuesto Mensual', 1000000),
 ('Presupuesto Anual', 12000000),

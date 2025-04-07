@@ -14,7 +14,7 @@ import java.util.List;
 public class InvestmentDB {
     public static Connection con = MySQL.connect();
     
-    public void insert(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) {
+    public void insert(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) throws SQLException {
         if (con != null) {
             String sql = "INSERT INTO investments (concept, investment, interest, months, feeback)" 
                          + "VALUES (?, ?, ?, ?, ?)";
@@ -32,7 +32,7 @@ public class InvestmentDB {
         }
     }
 
-    public List<Investment> getAll() {
+    public List<Investment> getAll() throws SQLException {
         List<Investment> investments = new ArrayList<>();
         if (con != null) {
             String sql = "SELECT * FROM `investments`";
@@ -56,7 +56,7 @@ public class InvestmentDB {
         
     }
 
-    public void update(String concept, long goal){
+    public void update(String concept, long goal) throws SQLException {
         if(con != null){
             String sql ="UPDATE investments SET concept = ?, goal = ? WHERE concept = ?"; 
             try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -71,7 +71,7 @@ public class InvestmentDB {
         }
     }
 
-    public void delete(String concept){
+    public void delete(String concept) throws SQLException {
         if(con != null){
             String sql = "DELETE FROM investments WHERE concept = ?";
             try (PreparedStatement ps = con.prepareStatement(sql)){
@@ -84,7 +84,7 @@ public class InvestmentDB {
         }
     }
 
-    public List<Investment> getOne(String concept){
+    public List<Investment> getOne(String concept) throws SQLException {
         List<Investment> investments = new ArrayList<>();
         if(con != null){
             String sql = "SELECT * FROM investments WHERE concept = ?";
@@ -92,11 +92,14 @@ public class InvestmentDB {
                 ps.setString(1, concept);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    String concept2 = rs.getString("concept");
-                    long goal = rs.getLong("goal");
-                    System.out.println(" Concepto: " + concept2 + " Meta " + goal );
-
-                    Investment investment = new Investment(concept, goal);
+                    String conceptD = rs.getString("concept");
+                    long investmentD = rs.getLong("investment");
+                    BigDecimal investmentBD = new BigDecimal(investmentD);
+                    float interestD = rs.getFloat("interest");
+                    int monthsD = rs.getInt("months");
+                    long feeBackD = rs.getLong("feeBack");
+                    BigDecimal feeBackBD = new BigDecimal(feeBackD);
+                    Investment investment = new Investment(conceptD, investmentBD, interestD, monthsD, feeBackBD);
 
                     investments.add(investment);
                 }
@@ -110,7 +113,7 @@ public class InvestmentDB {
         return investments;
     }
 
-    public long getTotal() {
+    public long getTotal() throws SQLException {
         long total = 0;
         if (con != null) {
             String sql = "SELECT SUM(goal) FROM investments";

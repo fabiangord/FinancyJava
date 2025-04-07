@@ -10,7 +10,6 @@ import org.jfree.chart.*;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import Models.*;
 import View.MainFrame;
 
 public class ProjectionsFrame extends JFrame{
@@ -38,7 +37,7 @@ public class ProjectionsFrame extends JFrame{
         backButton.setFocusPainted(false);
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             new MainFrame();
             dispose();
         });

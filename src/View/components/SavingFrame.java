@@ -66,7 +66,6 @@ public class SavingFrame extends JFrame {
         csvButton.setBounds(370, 26, 100, 20);
         csvButton.setFont(new Font("Arial", Font.BOLD, 10));
         csvButton.setForeground(Color.WHITE);
-        csvButton.setBackground(new Color(52, 152, 219));
         csvButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         csvButton.setBackground(Color.decode("#006A71"));
         csvButton.setFocusPainted(false);
@@ -154,7 +153,7 @@ public class SavingFrame extends JFrame {
         header.setForeground(Color.decode("#F2EFE7"));
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(50, 320, 400, 200);
+        scrollPane.setBounds(50, 330, 400, 200);
         scrollPane.getViewport().setBackground(Color.decode("#48A6A7"));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#48A6A7")));
         add(scrollPane);
@@ -237,15 +236,15 @@ public class SavingFrame extends JFrame {
         allIncome.addActionListener(e -> allSavings());
         add(allIncome);
 
-        JButton projectionButton = new JButton("Proyectar 📈");
-        projectionButton.setBounds(150, 26, 200, 15);
+        JButton projectionButton = new JButton("Project");
+        projectionButton.setBounds(150, 300, 200, 20);
         projectionButton.setFont(new Font("Arial", Font.BOLD, 10));
         projectionButton.setForeground(Color.WHITE);
-        projectionButton.setBackground(new Color(14, 162, 33));
-        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        projectionButton.setBackground(Color.decode("#006A71"));
         projectionButton.setFocusPainted(false);
         projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+        
         add(projectionButton);
 
         projectionButton.addActionListener(new ActionListener() {

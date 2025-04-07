@@ -1,7 +1,6 @@
 package View.components;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 import Controller.ProjectionsController;
@@ -22,11 +21,8 @@ public class ProjectionDialogFrame extends JFrame{
 
         initialize();
     }
-
-
     private void initialize() {
         JDialog dialog = new JDialog((Frame) null, "Ingresar Datos de Proyección", true);
-        dialog.setSize(360, 220);
         dialog.setLayout(new GridBagLayout());
         dialog.getContentPane().setBackground(Color.WHITE);
     
@@ -35,90 +31,107 @@ public class ProjectionDialogFrame extends JFrame{
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
     
+        // Comunes
         JLabel monthsLabel = new JLabel("Meses:");
-        monthsLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    
         JTextField monthsField = new JTextField();
-        monthsField.setFont(new Font("SansSerif", Font.PLAIN, 14));
         monthsField.setPreferredSize(new Dimension(180, 30));
-        monthsField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(180, 180, 180)),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
     
-        JLabel goalLabel = new JLabel("Meta:");
-        goalLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    
-        JTextField goalField = new JTextField();
-        goalField.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        monthsField.setPreferredSize(new Dimension(180, 30));
-        goalField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(180, 180, 180)),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
+        JLabel errorLabel = new JLabel("");
+        errorLabel.setForeground(Color.RED);
     
         JButton confirmButton = new JButton("Calcular");
         confirmButton.setBackground(new Color(34, 197, 94));
         confirmButton.setForeground(Color.WHITE);
-        confirmButton.setFocusPainted(false);
-        confirmButton.setFont(new Font("SansSerif", Font.BOLD, 14));
-        confirmButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
     
-        JLabel errorLabel = new JLabel("");
-        errorLabel.setForeground(Color.RED);
-        errorLabel.setFont(new Font("SansSerif", Font.ITALIC, 12));
+        // Campos dinámicos
+        JTextField goalField = new JTextField(); // Para caso simple
+        JTextField budgetGoalField = new JTextField();
+        JTextField expenseGoalField = new JTextField();
+        JTextField incomeGoalField = new JTextField();
+        JTextField savingGoalField = new JTextField();
     
-        // Layout
-        gbc.gridx = 0; gbc.gridy = 0;
+        int row = 0;
+    
+        // Layout fijo
+        gbc.gridx = 0; gbc.gridy = row;
         dialog.add(monthsLabel, gbc);
         gbc.gridx = 1;
         dialog.add(monthsField, gbc);
+        row++;
     
-        gbc.gridx = 0; gbc.gridy = 1;
-        dialog.add(goalLabel, gbc);
-        gbc.gridx = 1;
-        dialog.add(goalField, gbc);
+        if (type.equals("All")) {
+            dialog.setSize(400, 380); // Redimensionado
     
-        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
+            gbc.gridx = 0; gbc.gridy = row;
+            dialog.add(new JLabel("Meta Budget:"), gbc);
+            gbc.gridx = 1;
+            dialog.add(budgetGoalField, gbc);
+            row++;
+    
+            gbc.gridx = 0; gbc.gridy = row;
+            dialog.add(new JLabel("Meta Expense:"), gbc);
+            gbc.gridx = 1;
+            dialog.add(expenseGoalField, gbc);
+            row++;
+    
+            gbc.gridx = 0; gbc.gridy = row;
+            dialog.add(new JLabel("Meta Income:"), gbc);
+            gbc.gridx = 1;
+            dialog.add(incomeGoalField, gbc);
+            row++;
+    
+            gbc.gridx = 0; gbc.gridy = row;
+            dialog.add(new JLabel("Meta Saving:"), gbc);
+            gbc.gridx = 1;
+            dialog.add(savingGoalField, gbc);
+            row++;
+    
+        } else {
+            dialog.setSize(360, 220); // Tamaño normal
+    
+            gbc.gridx = 0; gbc.gridy = row;
+            dialog.add(new JLabel("Meta:"), gbc);
+            gbc.gridx = 1;
+            dialog.add(goalField, gbc);
+            row++;
+        }
+    
+        // Error + botón
+        gbc.gridx = 0; gbc.gridy = row; gbc.gridwidth = 2;
         dialog.add(errorLabel, gbc);
+        row++;
     
-        gbc.gridy = 3;
+        gbc.gridy = row;
         gbc.anchor = GridBagConstraints.CENTER;
         dialog.add(confirmButton, gbc);
     
         confirmButton.addActionListener(_ -> {
             try {
                 errorLabel.setText(""); 
-                String monthsText = monthsField.getText().trim();
-                String goalText = goalField.getText().trim();
     
-                if (monthsText.isEmpty() || goalText.isEmpty()) {
-                    errorLabel.setText("Todos los campos son obligatorios.");
-                    return;
+                int months = Integer.parseInt(monthsField.getText().trim());
+    
+                if (type.equals("All")) {
+                    Map<String, Map<String, Object>> projected = projectionsController.calculateAllProjections(
+                        months,
+                        new BigInteger(budgetGoalField.getText().trim()),
+                        new BigInteger(expenseGoalField.getText().trim()),
+                        new BigInteger(incomeGoalField.getText().trim()),
+                        new BigInteger(savingGoalField.getText().trim())
+                    );
+                    new ProjectionsFrame().showProjections(projected);
+                } else {
+                    BigInteger goal = new BigInteger(goalField.getText().trim());
+                    switch (type) {
+                        case "Budgets": projected = projectionsController.calculateBudget(months, goal); break;
+                        case "Expenses": projected = projectionsController.calculateExpense(months, goal); break;
+                        case "Incomes": projected = projectionsController.calculateIncome(months, goal); break;
+                        case "Savings": projected = projectionsController.calculateSaving(months, goal); break;
+                        default: throw new IllegalArgumentException("Tipo de proyección no válido: " + type);
+                    }
+                    new ProjectionChartFrame(projected).setVisible(true);
                 }
     
-                int months = Integer.parseInt(monthsText);
-                BigInteger goal = new BigInteger(goalText);
-
-                switch (type) {
-                    case "Budgets":
-                        projected = projectionsController.calculateBudget(months, goal);
-                        break;
-                    case "Expenses":
-                        projected = projectionsController.calculateExpense(months, goal);
-                        break;
-                    case "Incomes":
-                        projected = projectionsController.calculateIncome(months, goal);
-                        break;
-                    case "Savings":
-                        projected = projectionsController.calculateSaving(months, goal);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Tipo de proyección no válido: " + type);
-                }
-    
-                ProjectionChartFrame projectionChartFrame = new ProjectionChartFrame(projected);
-                projectionChartFrame.setVisible(true);
                 dialog.dispose();
                 dispose();
             } catch (NumberFormatException ex) {
@@ -126,16 +139,8 @@ public class ProjectionDialogFrame extends JFrame{
             }
         });
     
-        dialog.getRootPane().setDefaultButton(confirmButton);
-        FocusListener selector = new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                ((JTextField) e.getComponent()).selectAll();
-            }
-        };
-        monthsField.addFocusListener(selector);
-        goalField.addFocusListener(selector);
-    
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
+    
 }

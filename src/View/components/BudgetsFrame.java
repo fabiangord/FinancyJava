@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import Controller.BudgetController;
+import Controller.ProjectionsController;
 import View.MainFrame;
 
 import java.math.BigInteger;
@@ -100,5 +101,25 @@ public class BudgetsFrame extends JFrame{
             }
         });
         add(saveButton);
+
+        JButton projectionButton = new JButton("Proyectar 📈");
+        projectionButton.setBounds(150, 300, 200, 50);
+        projectionButton.setFont(new Font("Arial", Font.BOLD, 16));
+        projectionButton.setForeground(Color.WHITE);
+        projectionButton.setBackground(new Color(14, 162, 33));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setFocusPainted(false);
+        projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        add(projectionButton);
+
+        projectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                ProjectionsController projectionsController = new ProjectionsController();
+                new ProjectionDialogFrame(projectionsController, "Budgets");
+                dispose();
+            }
+        });
     }
+    
 }

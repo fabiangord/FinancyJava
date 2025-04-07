@@ -35,9 +35,9 @@ public class ProjectionService {
 
         Projection projection = new Projection( budgets.get(0).getId(), historicalValues, months, goal);
 
-        this.database.insert(projection);
+        Map<String, Object> calculateProjection = calculateProjection(projection, "Budgets");
 
-        return calculateProjection(projection);
+        return calculateProjection;
 
     }
 
@@ -51,9 +51,9 @@ public class ProjectionService {
 
         Projection projection = new Projection( expenses.get(0).getId(), historicalValues, months, goal);
 
-        this.database.insert(projection);
+        Map<String, Object> calculateProjection = calculateProjection(projection, "Expenses");
 
-        return calculateProjection(projection);
+        return calculateProjection;
 
     }
 
@@ -67,9 +67,7 @@ public class ProjectionService {
 
         Projection projection = new Projection( incomes.get(0).getId(), historicalValues, months, goal);
 
-        this.database.insert(projection);
-
-        return calculateProjection(projection);
+        return calculateProjection(projection, "Incomes");
 
     }
 
@@ -83,13 +81,11 @@ public class ProjectionService {
 
         Projection projection = new Projection( savings.get(0).getId(), historicalValues, months, goal);
 
-        this.database.insert(projection);
-
-        return calculateProjection(projection);
+        return calculateProjection(projection, "Savings");
 
     }
 
-    public Map<String, Object> calculateProjection(Projection projection) {
+    public Map<String, Object> calculateProjection(Projection projection, String type) {
         List<BigInteger> historicalValues = projection.historicalValues;
         BigInteger goal = projection.goal;
         int months = projection.months;
@@ -121,6 +117,7 @@ public class ProjectionService {
         result.put("months", months);
         result.put("goal", goal);
         result.put("projection", projectedValues);
+        result.put("type", type);
 
         return result;
     }

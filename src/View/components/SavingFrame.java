@@ -1,9 +1,12 @@
 package View.components;
 
+import Controller.ProjectionsController;
 import Controller.SavingController;
 import Models.Saving;
 import View.MainFrame;
 import java.awt.*;
+import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +27,9 @@ public class SavingFrame extends JFrame {
     public SavingFrame() {
         this.controllerSaving = new SavingController();
         initialize();
-    }
+        setVisible(true);
 
+    }
     public void initialize() {
         setLocation(550, 60);
         setTitle("FinancyJava");
@@ -44,7 +48,7 @@ public class SavingFrame extends JFrame {
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(backButton);
 
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             new MainFrame();
             dispose();
         });
@@ -88,7 +92,7 @@ public class SavingFrame extends JFrame {
         saveButton.setFocusPainted(false);
         saveButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        saveButton.addActionListener(e -> {
+        saveButton.addActionListener(_ -> {
             try {
                 String name = nameField.getText().trim();
                 String category = (String) categoryComboBox.getSelectedItem();
@@ -104,7 +108,6 @@ public class SavingFrame extends JFrame {
 
         add(saveButton);
 
-
         JButton allSavings = new JButton("Ver Ahorros");
         allSavings.setBounds(150, 300, 200, 50);
         allSavings.setFont(new Font("Arial", Font.BOLD, 16));
@@ -113,7 +116,7 @@ public class SavingFrame extends JFrame {
         allSavings.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         allSavings.setFocusPainted(false);
         allSavings.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        allSavings.addActionListener(e -> allSavings());
+        allSavings.addActionListener(_ -> allSavings());
         add(allSavings);
 
         String[] columns = {"ID", "Nombre", "Valor", "Categoria"};
@@ -131,7 +134,7 @@ public class SavingFrame extends JFrame {
         csvButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(csvButton);
 
-        csvButton.addActionListener(e -> {
+        csvButton.addActionListener(_ -> {
             controllerSaving.exportCSV();
         });
 
@@ -139,7 +142,24 @@ public class SavingFrame extends JFrame {
         scrollPane.setBounds(50, 380, 400, 200);
         add(scrollPane);
 
-        setVisible(true);
+        JButton projectionButton = new JButton("Proyectar 📈");
+        projectionButton.setBounds(150, 26, 200, 15);
+        projectionButton.setFont(new Font("Arial", Font.BOLD, 10));
+        projectionButton.setForeground(Color.WHITE);
+        projectionButton.setBackground(new Color(14, 162, 33));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setFocusPainted(false);
+        projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        add(projectionButton);
+
+        projectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                ProjectionsController projectionsController = new ProjectionsController();
+                new ProjectionDialogFrame(projectionsController, "Savings");
+                dispose();
+            }
+        });
     }
 
     private void allSavings() {

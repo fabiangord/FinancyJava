@@ -202,9 +202,9 @@ public class IncomeFrame extends JFrame{
                 BigInteger goal = new BigInteger(goalText);
     
                 ProjectionsController projectionsController = new ProjectionsController();
-                Map<String, Object> projectedExpenses = projectionsController.calculateIncome(months, goal);
+                Map<String, Object> projectedIncomes = projectionsController.calculateIncome(months, goal);
     
-                projectionChartFrame = new ProjectionChartFrame(projectedExpenses);
+                projectionChartFrame = new ProjectionChartFrame(projectedIncomes);
                 projectionChartFrame.setVisible(true);
                 dialog.dispose();
                 dispose();
@@ -225,5 +225,4 @@ public class IncomeFrame extends JFrame{
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
-    
 }

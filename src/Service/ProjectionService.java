@@ -81,8 +81,6 @@ public class ProjectionService {
 
         Projection projection = new Projection( savings.get(0).getId(), historicalValues, months, goal);
 
-        this.database.insert(projection);
-
         return calculateProjection(projection, "Savings");
 
     }

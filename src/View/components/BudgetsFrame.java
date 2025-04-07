@@ -138,6 +138,7 @@ public class BudgetsFrame extends JFrame{
 
         String[] columns = {"ID", "Name", "Value"};
         tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
         table.setBackground(Color.decode("#9ACBD0"));
         table.setShowGrid(true);

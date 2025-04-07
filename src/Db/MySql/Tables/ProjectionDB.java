@@ -22,10 +22,10 @@ public class ProjectionDB {
 
             try(PreparedStatement ps = con.prepareStatement(query)) {
 
-                ps.setLong(1, projections.projectedBudgets.longValue());
-                ps.setLong(2, projections.projectedExpenses.longValue());
-                ps.setLong(3, projections.projectedIncomes.longValue());
-                ps.setLong(4, projections.projectedSavings.longValue());
+                // ps.setLong(1, projections.projectedBudgets.longValue());
+                // ps.setLong(2, projections.projectedExpenses.longValue());
+                // ps.setLong(3, projections.projectedIncomes.longValue());
+                // ps.setLong(4, projections.projectedSavings.longValue());
 
                 ps.setInt(5, projections.months);
                 ps.executeUpdate();
@@ -43,16 +43,16 @@ public class ProjectionDB {
             String query = "SELECT * FROM projections;";
             try (PreparedStatement ps = con.prepareStatement(query); ResultSet rs = ps.executeQuery()){
                 while (rs.next()) {
-                    int id = rs.getInt("id");
-                    BigInteger projectedBudgets = BigInteger.valueOf(rs.getInt("projected_budgets"));
-                    BigInteger projectedExpenses = BigInteger.valueOf(rs.getInt("projected_expenses"));
-                    BigInteger projectedIncomes = BigInteger.valueOf(rs.getInt("projected_incomes"));
-                    BigInteger projectedSavings = BigInteger.valueOf(rs.getInt("projected_savings"));
-                    int months = rs.getInt("month");
+                    // int id = rs.getInt("id");
+                    // BigInteger projectedBudgets = BigInteger.valueOf(rs.getInt("projected_budgets"));
+                    // BigInteger projectedExpenses = BigInteger.valueOf(rs.getInt("projected_expenses"));
+                    // BigInteger projectedIncomes = BigInteger.valueOf(rs.getInt("projected_incomes"));
+                    // BigInteger projectedSavings = BigInteger.valueOf(rs.getInt("projected_savings"));
+                    // int months = rs.getInt("month");
 
-                    Projection projection = new Projection(projectedBudgets, projectedExpenses, projectedIncomes, projectedSavings, months);
+                    // Projection projection = new Projection(projectedBudgets, projectedExpenses, projectedIncomes, projectedSavings, months);
 
-                    projections.add(projection);
+                    // projections.add(projection);
                 }
             } catch (SQLException e) {
                 System.out.println("Error al traer valores de proyección");
@@ -69,9 +69,9 @@ public class ProjectionDB {
 
     }
 
-    public Projection getOne(){
-        Projection projection = new Projection(null, null, null, null, 0);
-        return projection;
-    }
+    // public Projection getOne(){
+    //     Projection projection = new Projection(null, null, null, null, 0);
+    //     return projection;
+    // }
 
 }

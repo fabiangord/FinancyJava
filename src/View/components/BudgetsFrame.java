@@ -12,6 +12,7 @@ import java.util.Locale;
 import Controller.BudgetController;
 import Controller.IncomeController;
 import Models.Budget;
+import Controller.ProjectionsController;
 import View.MainFrame;
 import java.math.BigInteger;
 import java.text.NumberFormat;
@@ -137,7 +138,6 @@ public class BudgetsFrame extends JFrame{
 
         String[] columns = {"ID", "Name", "Value"};
         tableModel = new DefaultTableModel(columns, 0);
-        table = new JTable(tableModel);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
         table.setBackground(Color.decode("#9ACBD0"));
         table.setShowGrid(true);
@@ -232,6 +232,24 @@ public class BudgetsFrame extends JFrame{
         allBudget.addActionListener(e -> allBudget());
         add(allBudget);
 
+        JButton projectionButton = new JButton("Proyectar 📈");
+        projectionButton.setBounds(150, 300, 200, 50);
+        projectionButton.setForeground(Color.WHITE);
+        projectionButton.setBackground(new Color(14, 162, 33));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setFocusPainted(false);
+        projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        add(projectionButton);
+
+        projectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                ProjectionsController projectionsController = new ProjectionsController();
+                new ProjectionDialogFrame(projectionsController, "Budgets");
+                dispose();
+            }
+        });
+
         setVisible(true);
     }
 
@@ -292,3 +310,4 @@ public class BudgetsFrame extends JFrame{
         }
     }
 }
+    

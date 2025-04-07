@@ -1,6 +1,5 @@
 package View.components;
 
-import Controller.IncomeController;
 import Controller.SavingController;
 import Models.Saving;
 import View.MainFrame;
@@ -34,8 +33,9 @@ public class SavingFrame extends JFrame {
     public SavingFrame() {
         this.controllerSaving = new SavingController();
         initialize();
-    }
+        setVisible(true);
 
+    }
     public void initialize() {
         setLocation(550, 60);
         setTitle("FinancyJava");
@@ -56,7 +56,7 @@ public class SavingFrame extends JFrame {
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(backButton);
 
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             new MainFrame();
             dispose();
         });
@@ -123,7 +123,7 @@ public class SavingFrame extends JFrame {
         saveButton.setFocusPainted(false);
         saveButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        saveButton.addActionListener(e -> {
+        saveButton.addActionListener(_ -> {
             try {
                 String name = nameField.getText().trim();
                 String category = (String) categoryComboBox.getSelectedItem();
@@ -139,104 +139,59 @@ public class SavingFrame extends JFrame {
 
         add(saveButton);
 
-        String[] columns = {"ID", "Name", "Value", "Category"};
-        tableModel = new DefaultTableModel(columns, 0);
-        table = new JTable(tableModel);
-        table.setFont(new Font("Arial", Font.PLAIN, 14));
-        table.setBackground(Color.decode("#9ACBD0"));
-        table.setShowGrid(true);
-        table.setGridColor(Color.decode("#48A6A7"));
 
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Arial", Font.BOLD, 14));
-        header.setBackground(Color.decode("#006A71"));
-        header.setForeground(Color.decode("#F2EFE7"));
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(50, 320, 400, 200);
-        scrollPane.getViewport().setBackground(Color.decode("#48A6A7"));
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#48A6A7")));
-        add(scrollPane);
-
-        JButton cleanButton = new JButton("Clean");
-        cleanButton.setBounds(60, 550, 80, 25);
-        cleanButton.setFont(new Font("Arial", Font.BOLD, 12));
-        cleanButton.setForeground(Color.WHITE);
-        cleanButton.setBackground(Color.decode("#006A71"));
-        cleanButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        cleanButton.setFocusPainted(false);
-        cleanButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        cleanButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cleanTable();
-                JOptionPane.showMessageDialog(null, "All data deleted!");
-            }
-        });
-        add(cleanButton);
-
-        JButton editButton = new JButton("Edit");
-        editButton.setBounds(160, 550, 80, 25);
-        editButton.setFont(new Font("Arial", Font.BOLD, 12));
-        editButton.setForeground(Color.WHITE);
-        editButton.setBackground(Color.decode("#006A71"));
-        editButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        editButton.setFocusPainted(false);
-        editButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editDataInTable();
-            }
-        });
-        add(editButton);
-
-        JButton modifyButton = new JButton("Modify");
-        modifyButton.setBounds(260, 550, 80, 25);
-        modifyButton.setFont(new Font("Arial", Font.BOLD, 12));
-        modifyButton.setForeground(Color.WHITE);
-        modifyButton.setBackground(Color.decode("#006A71"));
-        modifyButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        modifyButton.setFocusPainted(false);
-        modifyButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        modifyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                modifyTable();
-                JOptionPane.showMessageDialog(null, "Data selected for edit!");
-            }
-        });
-        add(modifyButton);
-
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.setBounds(360, 550, 80, 25);
-        deleteButton.setFont(new Font("Arial", Font.BOLD, 12));
-        deleteButton.setForeground(Color.WHITE);
-        deleteButton.setBackground(Color.decode("#006A71"));
-        deleteButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        deleteButton.setFocusPainted(false);
-        deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSaving(e);
-                JOptionPane.showMessageDialog(null, "Saving deleted!");
-            }
-        });
-        add(deleteButton);
-
-        JButton allSavings = new JButton("Get Savings");
-        allSavings.setBounds(150, 600, 200, 50);
+        JButton allSavings = new JButton("Ver Ahorros");
+        allSavings.setBounds(150, 300, 200, 50);
         allSavings.setFont(new Font("Arial", Font.BOLD, 16));
         allSavings.setForeground(Color.WHITE);
         allSavings.setBackground(Color.decode("#006A71"));
         allSavings.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         allSavings.setFocusPainted(false);
         allSavings.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        allSavings.addActionListener(e -> allSavings());
+        allSavings.addActionListener(_ -> allSavings());
         add(allSavings);
 
-        setVisible(true);
+        String[] columns = {"ID", "Nombre", "Valor", "Categoria"};
+        tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JButton csvButton = new JButton("Descargar csv");
+        csvButton.setBounds(380, 26, 90, 15);
+        csvButton.setFont(new Font("Arial", Font.BOLD, 10));
+        csvButton.setForeground(Color.WHITE);
+        csvButton.setBackground(new Color(52, 152, 219));
+        csvButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        csvButton.setFocusPainted(false);
+        csvButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(csvButton);
+
+        csvButton.addActionListener(e -> {
+            controllerSaving.exportCSV();
+        });
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 380, 400, 200);
+        add(scrollPane);
+
+        JButton projectionButton = new JButton("Proyectar 📈");
+        projectionButton.setBounds(150, 26, 200, 15);
+        projectionButton.setFont(new Font("Arial", Font.BOLD, 10));
+        projectionButton.setForeground(Color.WHITE);
+        projectionButton.setBackground(new Color(14, 162, 33));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setFocusPainted(false);
+        projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        add(projectionButton);
+
+        projectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                ProjectionsController projectionsController = new ProjectionsController();
+                new ProjectionDialogFrame(projectionsController, "Savings");
+                dispose();
+            }
+        });
     }
 
     private void allSavings() {

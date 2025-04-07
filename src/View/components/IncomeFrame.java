@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import Controller.IncomeController;
 import Models.Income;
+import Controller.ProjectionsController;
 import View.MainFrame;
 
 import java.math.BigInteger;
@@ -26,6 +27,7 @@ public class IncomeFrame extends JFrame {
     private String[] categories = {"", "DWELLING", "TRANSPORT", "FOOD", "SALARY", "INVERSION", "INCOME", "OTHER" };
     private JComboBox<String> categoryComboBox = new JComboBox<>(categories);
     private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("es-CO"));
+
 
 
     public static void main(String[] args) {
@@ -239,6 +241,25 @@ public class IncomeFrame extends JFrame {
         add(allIncome);
 
         setVisible(true);
+        JButton projectionButton = new JButton("Proyectar 📈");
+        projectionButton.setBounds(150, 300, 200, 50);
+        projectionButton.setFont(new Font("Arial", Font.BOLD, 16));
+        projectionButton.setForeground(Color.WHITE);
+        projectionButton.setBackground(new Color(14, 162, 33));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setFocusPainted(false);
+        projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        add(projectionButton);
+
+        projectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                ProjectionsController projectionsController = new ProjectionsController();
+                new ProjectionDialogFrame(projectionsController, "Incomes");
+                dispose();
+            }
+        });
+
     }
 
     private void allIncome() {

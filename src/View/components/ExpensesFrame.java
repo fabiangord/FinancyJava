@@ -8,6 +8,7 @@ import javax.swing.table.JTableHeader;
 
 import Models.Expense;
 import Controller.ExpensesController;
+import Controller.ProjectionsController;
 import View.MainFrame;
 import java.util.List;
 import java.util.Locale;
@@ -25,12 +26,15 @@ public class ExpensesFrame extends JFrame{
     private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("es-CO"));
     private String[] categories = {"", "DWELLING", "TRANSPORT", "FOOD", "SALARY", "INVERSION", "INCOME", "OTHER"};
     private JComboBox<String> categoryComboBox = new JComboBox<>(categories); 
+
+
     public static void main(String[] args) {
         new ExpensesFrame();
     }
     public ExpensesFrame() {
         this.expensesController = new ExpensesController();
         initialize();
+        setVisible(true);
     }
 
     public void initialize() {
@@ -230,6 +234,25 @@ public class ExpensesFrame extends JFrame{
         allExpense.setCursor(new Cursor(Cursor.HAND_CURSOR));
         allExpense.addActionListener(e -> allExpense());
         add(allExpense);
+
+        JButton projectionButton = new JButton("Proyectar 📈");
+        projectionButton.setBounds(150, 300, 200, 50);
+        projectionButton.setFont(new Font("Arial", Font.BOLD, 16));
+        projectionButton.setForeground(Color.WHITE);
+        projectionButton.setBackground(new Color(14, 162, 33));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setFocusPainted(false);
+        projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        add(projectionButton);
+
+        projectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                ProjectionsController projectionsController = new ProjectionsController();
+                new ProjectionDialogFrame(projectionsController, "Expenses");
+                dispose();
+            }
+        });
  
         setVisible(true);
     }
@@ -290,4 +313,8 @@ public class ExpensesFrame extends JFrame{
             e.printStackTrace();
         }
     }
+        
 }
+
+    
+

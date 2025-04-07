@@ -1,18 +1,7 @@
 package View;
-import Controller.BudgetController;
-import Controller.ExpensesController;
-import Controller.ProjectionsController;
-import Controller.SavingController;
-import View.components.BudgetsFrame;
-import View.components.ExpensesFrame;
-import View.components.IncomeFrame;
-import View.components.InvestmentFrame;
-import View.components.ProjectionsFrame;
-import View.components.SavingFrame;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
+import Controller.*;
+import View.components.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.math.BigInteger;
 import java.text.NumberFormat;
@@ -140,9 +129,8 @@ public class MainFrame extends JFrame {
         projectionsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectionsFrame projectionsFrame = new ProjectionsFrame();
                 ProjectionsController projectionsController = new ProjectionsController();
-                projectionsFrame.showProjections(projectionsController.getAll());
+                new ProjectionDialogFrame(projectionsController, "All");
                 dispose();
             }
         });

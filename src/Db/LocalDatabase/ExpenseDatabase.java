@@ -1,6 +1,7 @@
 package Db.LocalDatabase;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import Helpers.Category;
@@ -41,4 +42,15 @@ public class ExpenseDatabase {
         }
         
     }
+
+    public List<Expense> getMonthlyExpenses(int year, int month) {
+        List<Expense> filteredExpenses = new ArrayList<>();
+        for (Expense expense : expenses) {
+            if (expense.date.getYear() == year && expense.date.getMonthValue() == month) {
+                filteredExpenses.add(expense);
+            }
+        }
+        return filteredExpenses;
+    }
+    
 }

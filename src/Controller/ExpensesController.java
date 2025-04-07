@@ -36,4 +36,9 @@ private ExpenseService service;
     public BigInteger getTotal(){
         return service.getTotal();
     }
+
+    public List<Expense> getMonthlyExpenses(int year, int month) {
+        return service.getMonthlyExpenses(year, month);
+    }
+    
 }

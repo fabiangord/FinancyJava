@@ -1,24 +1,45 @@
 package View.components;
 
-import Controller.MonthlyExpenseController;
+import Controller.ExpensesController;
+import Models.Expense;
+import View.MainFrame;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
 
 public class MonthlyExpenseFrame extends JFrame {
     private JTextField yearField;
     private JTextField monthField;
     private JLabel resultLabel;
-    private MonthlyExpenseController controller;
+    private ExpensesController controller;
 
     public MonthlyExpenseFrame() {
-        this.controller = new MonthlyExpenseController(null);
 
+        setLocation(550, 60);
         setTitle("Gasto Mensual");
+        setSize(500, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(300, 400));
         setLayout(new BorderLayout());
+
+        JButton backButton = new JButton("Volver");
+        backButton.setBounds(15, 26, 50, 15);
+        backButton.setFont(new Font("Arial", Font.BOLD, 10));
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(new Color(52, 152, 219));
+        backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        backButton.setFocusPainted(false);
+        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(backButton);
+
+        backButton.addActionListener(e -> {
+            new MainFrame();
+            dispose();
+        });
 
         // Panel principal con márgenes
         JPanel mainPanel = new JPanel(new GridBagLayout());
@@ -70,7 +91,15 @@ public class MonthlyExpenseFrame extends JFrame {
                 try {
                     int year = Integer.parseInt(yearField.getText());
                     int month = Integer.parseInt(monthField.getText());
-                    controller.showMonthlyExpense(year, month);
+                    controller = new ExpensesController();
+                    List<Expense> monthlyExpenses = controller.getMonthlyExpenses(year, month);
+
+                    BigInteger total = BigInteger.ZERO;
+                    for (Expense exp : monthlyExpenses) {
+                        total = total.add(exp.value);
+                    }
+                    resultLabel.setText("Gasto total: $" + total);
+
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingresa valores numéricos válidos.");
                 }

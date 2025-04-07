@@ -36,4 +36,8 @@ public class ExpenseService {
     public BigInteger getTotal(){
         return database.getTotal();
     }
+
+    public List<Expense> getMonthlyExpenses(int year, int month) {
+        return database.getMonthlyExpenses(year, month);
+    }
 }

@@ -7,6 +7,7 @@ import View.components.BudgetsFrame;
 import View.components.ExpensesFrame;
 import View.components.IncomeFrame;
 import View.components.InvestmentFrame;
+import View.components.MonthlyExpenseFrame;
 import View.components.ProjectionsFrame;
 import View.components.SavingFrame;
 import java.awt.Color;
@@ -33,7 +34,7 @@ public class MainFrame extends JFrame {
 
         setLocation(550, 130);
         setTitle("FinancyJava");
-        setSize(500, 600);
+        setSize(500, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 400));
         setLayout(null);
@@ -161,6 +162,24 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) { 
                 new InvestmentFrame();
+                dispose();
+            }
+        });
+
+        JButton monthlyJButton = new JButton("Monthly Exppenses");
+        monthlyJButton.setBounds(150, 510, 200, 50);
+        monthlyJButton.setFont(new Font("Arial", Font.BOLD, 16));
+        monthlyJButton.setForeground(Color.WHITE);
+        monthlyJButton.setBackground(new Color(52, 152, 219));
+        monthlyJButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        monthlyJButton.setFocusPainted(false);
+        monthlyJButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(monthlyJButton);
+
+        monthlyJButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                new MonthlyExpenseFrame();
                 dispose();
             }
         });

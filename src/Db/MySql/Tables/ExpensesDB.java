@@ -132,4 +132,39 @@ public class ExpensesDB {
         return total;
     }
 
+
+    public List<Expense> getMonthlyExpenses(int year, int month) {
+        List<Expense> expenses = new ArrayList<>();
+        if (con != null) {
+            String sql = "SELECT * FROM `expenses` WHERE YEAR(date) = ? AND MONTH(date) = ?";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setInt(1, year);
+                ps.setInt(2, month);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        int id = rs.getInt("id");
+                        String name = rs.getString("name");
+                        BigInteger value = BigInteger.valueOf(rs.getLong("value"));
+                        Helpers.Category category = Helpers.Category.valueOf(rs.getString("category"));
+    
+                        System.out.println("ID: " + id + " Nombre: " + name + " valor: " + value);
+                        Expense expense = new Expense(name, value, category);
+                        expense.setId(id);
+                        expenses.add(expense);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al visualizar gasto: " + e.getMessage());
+                return null;
+            }
+        }
+    
+        if (expenses.isEmpty()) {
+            new NoDataFoundException("Error al devolver la información");
+        }
+    
+        return expenses;
+    }
+    
+
 }

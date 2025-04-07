@@ -14,6 +14,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.annotations.CategoryTextAnnotation;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
@@ -21,6 +22,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.ui.Layer;
 import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -160,41 +162,13 @@ public class ProjectionsFrame extends JFrame {
                 if (index < values.size()) {
                     dataset.addValue(values.get(index).doubleValue(), type, "Mes: " + (index + 1));
                     index++;
-                    if (index == values.size()) {
-                        // Al finalizar, agregar la flecha y etiqueta según resultado
-                        BigInteger lastValue = values.get(values.size() - 1);
-                        double lastValueDouble = lastValue.doubleValue();
-                        String arrowText;
-                        Color arrowColor;
-                        if (lastValue.compareTo(goal) >= 0) {
-                            arrowText = "↑"; // Flecha verde hacia arriba
-                            arrowColor = Color.GREEN;
-                        } else {
-                            arrowText = "↓"; // Flecha roja hacia abajo
-                            arrowColor = Color.RED;
-                        }
-                        // Agregar anotación de la flecha (usando CategoryTextAnnotation para gráficos de categorías)
-                        CategoryTextAnnotation arrowAnnotation = new CategoryTextAnnotation(
-                            arrowText, "Mes: " + (index), lastValueDouble
-                        );
-                        arrowAnnotation.setFont(new Font("SansSerif", Font.BOLD, 20));
-                        arrowAnnotation.setPaint(arrowColor);
-                        plot.addAnnotation(arrowAnnotation);
-    
-                        // Agregar etiqueta de estado
-                        CategoryTextAnnotation statusAnnotation = new CategoryTextAnnotation(
-                            lastValue.compareTo(goal) >= 0 ? "Meta alcanzada" : "Meta no alcanzada",
-                            "Mes: " + (index), lastValueDouble + (goal.doubleValue() * 0.05)
-                        );
-                        statusAnnotation.setFont(new Font("SansSerif", Font.BOLD, 12));
-                        statusAnnotation.setPaint(arrowColor);
-                        plot.addAnnotation(statusAnnotation);
-                    }
-                } else {
+                } 
+                
+                if (index == values.size()) {
                     ((Timer) e.getSource()).stop();
                 }
             }
-        });
+        });        
         timer.start();
     }
 }

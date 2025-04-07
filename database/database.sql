@@ -83,3 +83,7 @@ INSERT INTO projections (projected_budgets, projected_expenses, projected_income
 (1000000, 800000, 1200000, 400000, 1),
 (5000000, 4500000, 6000000, 1500000, 6),
 (12000000, 10000000, 15000000, 5000000, 12);
+
+-- Tabla investments
+
+INSERT INTO investments (concept, investment, interest, months, feeBack) VALUES ("Inversión para moto", 10000000, 10, 12, 1000000);

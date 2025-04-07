@@ -29,7 +29,7 @@ public class MainFrame extends JFrame {
         getContentPane().setBackground(Color.decode("#48A6A7"));
 
 
-        JLabel titleLabel = new JLabel("Budget Actually...");
+        JLabel titleLabel = new JLabel("Current Budget...");
         titleLabel.setBounds(150, 30, 200, 50);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);

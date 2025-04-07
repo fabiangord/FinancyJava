@@ -21,9 +21,6 @@ public class InvestmentController {
         invService.insertDB(concept, investment, interest, months, feeBack);
     }
     
-    public List<Investment> getAll() throws SQLException {
-        return invService.getAll();
-    }
 
     public void update(String concept, long goal) throws SQLException {
         invService.update(concept, goal);
@@ -37,11 +34,7 @@ public class InvestmentController {
         return invService.getOne(concept);
     }
 
-    public long getTotal() throws SQLException {
-        return invService.getTotal();
-    }
-    
-    public BigDecimal getResult2(String concept, BigDecimal investment, 
+    public BigDecimal getResult(String concept, BigDecimal investment, 
                          float interest, int months){
     return invService.getResult(concept, investment, interest, months);
     }

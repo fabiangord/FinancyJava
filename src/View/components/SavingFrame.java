@@ -140,6 +140,24 @@ public class SavingFrame extends JFrame {
 
         add(saveButton);
 
+        String[] columns = { "ID", "Name", "Value", "Category" };
+        tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+        table.setBackground(Color.decode("#9ACBD0"));
+        table.setShowGrid(true);
+        table.setGridColor(Color.decode("#48A6A7"));
+
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        header.setBackground(Color.decode("#006A71"));
+        header.setForeground(Color.decode("#F2EFE7"));
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 320, 400, 200);
+        scrollPane.getViewport().setBackground(Color.decode("#48A6A7"));
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#48A6A7")));
+        add(scrollPane);
 
         JButton cleanButton = new JButton("Clean");
         cleanButton.setBounds(60, 550, 80, 25);

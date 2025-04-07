@@ -249,7 +249,7 @@ public class ExpensesFrame extends JFrame{
         projectionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 ProjectionsController projectionsController = new ProjectionsController();
-                new ProjectionDialogFrame(projectionsController, "Savings");
+                new ProjectionDialogFrame(projectionsController, "Expenses");
                 dispose();
             }
         });

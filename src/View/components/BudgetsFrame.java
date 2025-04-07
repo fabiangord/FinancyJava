@@ -233,14 +233,15 @@ public class BudgetsFrame extends JFrame{
         allBudget.addActionListener(e -> allBudget());
         add(allBudget);
 
-        JButton projectionButton = new JButton("Proyectar 📈");
-        projectionButton.setBounds(150, 300, 200, 50);
+        JButton projectionButton = new JButton("Project");
+        projectionButton.setBounds(150, 300, 200, 20);
+        projectionButton.setFont(new Font("Arial", Font.BOLD, 10));
         projectionButton.setForeground(Color.WHITE);
-        projectionButton.setBackground(new Color(14, 162, 33));
-        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        projectionButton.setBackground(Color.decode("#006A71"));
         projectionButton.setFocusPainted(false);
         projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+        
         add(projectionButton);
 
         projectionButton.addActionListener(new ActionListener() {

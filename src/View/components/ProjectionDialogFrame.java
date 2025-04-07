@@ -15,16 +15,15 @@ public class ProjectionDialogFrame extends JFrame{
     private String type;
 
     public ProjectionDialogFrame(ProjectionsController projectionsController, String type){
-
         this.projectionsController = projectionsController;
         this.type = type;
 
         initialize();
     }
     private void initialize() {
-        JDialog dialog = new JDialog((Frame) null, "Ingresar Datos de Proyección", true);
+        JDialog dialog = new JDialog((Frame) null, "Enter data for projection", true);
         dialog.setLayout(new GridBagLayout());
-        dialog.getContentPane().setBackground(Color.WHITE);
+        dialog.getContentPane().setBackground(Color.decode("#48A6A7"));
     
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -32,15 +31,16 @@ public class ProjectionDialogFrame extends JFrame{
         gbc.anchor = GridBagConstraints.WEST;
     
         // Comunes
-        JLabel monthsLabel = new JLabel("Meses:");
+        JLabel monthsLabel = new JLabel("Months:");
         JTextField monthsField = new JTextField();
         monthsField.setPreferredSize(new Dimension(180, 30));
     
         JLabel errorLabel = new JLabel("");
         errorLabel.setForeground(Color.RED);
     
-        JButton confirmButton = new JButton("Calcular");
-        confirmButton.setBackground(new Color(34, 197, 94));
+        JButton confirmButton = new JButton("Calculate");
+        confirmButton.setBackground(Color.decode("#006A71"));
+        confirmButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         confirmButton.setForeground(Color.WHITE);
     
         // Campos dinámicos

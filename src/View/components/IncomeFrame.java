@@ -157,7 +157,7 @@ public class IncomeFrame extends JFrame {
         header.setForeground(Color.decode("#F2EFE7"));
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(50, 320, 400, 200);
+        scrollPane.setBounds(50, 330, 400, 200);
         scrollPane.getViewport().setBackground(Color.decode("#48A6A7"));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#48A6A7")));
         add(scrollPane);
@@ -241,12 +241,12 @@ public class IncomeFrame extends JFrame {
         add(allIncome);
 
         setVisible(true);
-        JButton projectionButton = new JButton("Proyectar 📈");
-        projectionButton.setBounds(150, 300, 200, 50);
-        projectionButton.setFont(new Font("Arial", Font.BOLD, 16));
+        JButton projectionButton = new JButton("Project");
+        projectionButton.setBounds(150, 300, 200, 20);
+        projectionButton.setFont(new Font("Arial", Font.BOLD, 12));
         projectionButton.setForeground(Color.WHITE);
-        projectionButton.setBackground(new Color(14, 162, 33));
-        projectionButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        projectionButton.setBackground(Color.decode("#006A71"));
+        projectionButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         projectionButton.setFocusPainted(false);
         projectionButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -311,6 +311,8 @@ public class IncomeFrame extends JFrame {
             tableModel.setValueAt(nameUpdate, rowSelected, 1);
             tableModel.setValueAt(valueUpdate, rowSelected, 2);
             tableModel.setValueAt(categoriesUpdate, rowSelected, 3);
+
+            System.out.println(id);
 
             controllerIncome.update(nameUpdate, valueUpdate, categoriesUpdate.toString(), id);
         } catch (Exception e) {

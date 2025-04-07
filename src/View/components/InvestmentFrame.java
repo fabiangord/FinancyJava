@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class InvestmentFrame extends JFrame{
     private JLabel conceptLabel;
@@ -34,11 +37,14 @@ public class InvestmentFrame extends JFrame{
     private JLabel monthsLabel;
     private JTextField monthsField;
     private JButton calcInvestment;
+    private JButton insertInvestment;
+    private JButton deleteInvestment;
     private InvestmentController controllerInvestment;
     private JButton findConcept;
     private JTable table;
     private DefaultTableModel tableModel;
     List<Investment> results;
+
 
     public static void main(String[] args) {
         new InvestmentFrame();
@@ -55,42 +61,52 @@ public class InvestmentFrame extends JFrame{
         setSize(500, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 400));
+        getContentPane().setBackground(Color.decode("#48A6A7"));
         setLayout(null);
+        getContentPane().setBackground(Color.decode("#48A6A7"));
 
-        JButton backButton = new JButton("Volver");
-        backButton.setBounds(15, 26, 50, 15);
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(18, 26, 60, 20);
         backButton.setFont(new Font("Arial", Font.BOLD, 10));
         backButton.setForeground(Color.WHITE);
-        backButton.setBackground(new Color(52, 152, 219));
-        backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        backButton.setBackground(Color.decode("#006A71"));
+        backButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         backButton.setFocusPainted(false);
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(backButton);
 
-        backButton.addActionListener(e -> {
-            new MainFrame();
-            dispose();
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MainFrame();
+                dispose();
+            }
         });
 
         JLabel titleLabel = new JLabel("Investment");
-        titleLabel.setBounds(182, 30, 160, 50);
+        titleLabel.setBounds(170, 40, 160, 50);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        titleLabel.setForeground(Color.WHITE);
         add(titleLabel);
 
         conceptLabel = new JLabel("Concept:");
-        conceptLabel.setBounds(90, 110, 80, 25);
+        conceptLabel.setBounds(70, 110, 80, 25);
         conceptLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(conceptLabel);
         
         conceptField = new JTextField();
-        conceptField.setBounds(168, 110, 200, 25);
+        conceptField.setBounds(150, 110, 200, 25);
         conceptField.setHorizontalAlignment(SwingConstants.CENTER);
         add(conceptField);
 
         findConcept = new JButton("🔎");
-        findConcept.setBounds(380, 110, 48, 25);
+        findConcept.setBounds(380, 110, 36, 25);
+        findConcept.setForeground(Color.WHITE);
+        findConcept.setBackground(Color.decode("#006A71"));
+        findConcept.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        findConcept.setFocusPainted(false);
+        findConcept.setCursor(new Cursor(Cursor.HAND_CURSOR));
         findConcept.setHorizontalAlignment(SwingConstants.CENTER);
         findConcept.addActionListener(new ActionListener() {
             @Override
@@ -100,27 +116,29 @@ public class InvestmentFrame extends JFrame{
                 try {
                     results = controllerInvestment.getOne(conceptField.getText());
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, ex);
-                }    
+                    JOptionPane.showMessageDialog(null, "Error de conexión con BD"+ex.getMessage());
+                }
             tableModel.setRowCount(0);
     
             for (Investment investment : results) {
                 Object[] row = {investment.getConcept(), investment.investment, investment.interest, investment.months, investment.feeBack};
                 tableModel.addRow(row);
             }
-            } else {
+            } else if (conceptField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null, "Please put something into the concept field");
+            } else {
+
             }
         }
         });
         add(findConcept);
 
         calcInvestment = new JButton("How much will I get?");
-        calcInvestment.setBounds(150, 265, 200, 50);
+        calcInvestment.setBounds(160, 265, 170, 30);
         calcInvestment.setFont(new Font("Arial", Font.BOLD, 16));
         calcInvestment.setForeground(Color.WHITE);
-        calcInvestment.setBackground(new Color(52, 152, 219));
-        calcInvestment.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        calcInvestment.setBackground(Color.decode("#006A71"));
+        calcInvestment.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         calcInvestment.setFocusPainted(false);
         calcInvestment.setCursor(new Cursor(Cursor.HAND_CURSOR));
         calcInvestment.setHorizontalAlignment(SwingConstants.CENTER);
@@ -136,9 +154,8 @@ public class InvestmentFrame extends JFrame{
                     String monthsF = monthsField.getText().trim();
                     int months = Integer.parseInt(monthsF);
                     
-                    controllerInvestment.getResult2(conceptF, investment, interest, months);
-                    BigDecimal result = controllerInvestment.getResult2(conceptF, investment, interest, months);
-                    controllerInvestment.add(conceptF, investment, interest, months, result);
+                    controllerInvestment.getResult(conceptF, investment, interest, months);
+                    BigDecimal result = controllerInvestment.getResult(conceptF, investment, interest, months);
                     JOptionPane.showMessageDialog(null, "Your fee back is: $" +result);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Please verify that all the fields are filled"  +ex);
@@ -151,56 +168,144 @@ public class InvestmentFrame extends JFrame{
 
         add(calcInvestment);
 
+        insertInvestment = new JButton("SAVE");
+        insertInvestment.setBounds(50, 265, 100, 30);
+        insertInvestment.setFont(new Font("Arial", Font.BOLD, 14));
+        insertInvestment.setForeground(Color.WHITE);
+        insertInvestment.setBackground(Color.decode("#006A71"));
+        insertInvestment.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        insertInvestment.setFocusPainted(false);
+        insertInvestment.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        insertInvestment.setHorizontalAlignment(SwingConstants.CENTER);
+        insertInvestment.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String conceptF = conceptField.getText().trim();
+                    String investmentF = investmentField.getText().trim();
+                    BigDecimal investment = new BigDecimal(investmentF);
+                    String interestF = interestField.getText().trim();
+                    long interest = Long.valueOf(interestF);
+                    String monthsF = monthsField.getText().trim();
+                    int months = Integer.parseInt(monthsF);
+                    BigDecimal result = controllerInvestment.getResult(conceptF, investment, interest, months);
+                    controllerInvestment.add(conceptF, investment, interest, months, result);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }   
+            }
+        
+        });
+
+        add(insertInvestment);
+
+        deleteInvestment = new JButton("DELETE");
+        deleteInvestment.setBounds(340, 265, 100, 30);
+        deleteInvestment.setFont(new Font("Arial", Font.BOLD, 14));
+        deleteInvestment.setForeground(Color.WHITE);
+        deleteInvestment.setBackground(Color.decode("#006A71"));
+        deleteInvestment.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        deleteInvestment.setFocusPainted(false);
+        deleteInvestment.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        deleteInvestment.setHorizontalAlignment(SwingConstants.CENTER);
+        deleteInvestment.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                String conceptF = conceptField.getText().trim();
+                controllerInvestment.delete(conceptF);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
+                }
+            }
+        
+        });
+
+        add(deleteInvestment);
+
         investmentLabel = new JLabel("investment:");
         investmentLabel.setBounds(90, 140, 80, 25);
+        investmentLabel = new JLabel("Investment:");
+        investmentLabel.setBounds(70, 140, 80, 25);
+
         investmentLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(investmentLabel);
         
         investmentField = new JTextField();
-        investmentField.setBounds(168, 140, 200, 25);
+        investmentField.setBounds(150, 140, 200, 25);
         investmentField.setHorizontalAlignment(SwingConstants.CENTER);
         add(investmentField);
 
         interestLabel = new JLabel("Interest (%):");
         interestLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        interestLabel.setBounds(90, 170, 80, 25);
+        interestLabel.setBounds(70, 170, 80, 25);
         add(interestLabel);
 
         interestField = new JTextField();
-        interestField.setBounds(168, 170, 200, 25);
+        interestField.setBounds(150, 170, 200, 25);
         interestField.setHorizontalAlignment(SwingConstants.CENTER);
         add(interestField);
         
         monthsLabel = new JLabel("Months:");
         monthsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        monthsLabel.setBounds(90, 200, 80, 25);
+        monthsLabel.setBounds(70, 200, 80, 25);
         add(monthsLabel);
 
         monthsField = new JTextField();
-        monthsField.setBounds(168, 200, 200, 25);
+        monthsField.setBounds(150, 200, 200, 25);
         monthsField.setHorizontalAlignment(SwingConstants.CENTER);
         add(monthsField);
 
-        String[] columns = {"Concept", "Investment", "Interest", "Categoria"};
+        String[] columns = {"Concept", "Investment", "Interest (%)", "Categoria"};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
+        table.setBackground(Color.decode("#9ACBD0"));
+        table.setShowGrid(true);
+        table.setGridColor(Color.decode("#48A6A7"));
+
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        header.setBackground(Color.decode("#006A71"));
+        header.setForeground(Color.decode("#F2EFE7"));
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(50, 380, 400, 200);
+        scrollPane.setBounds(50, 350, 400, 200);
+        scrollPane.getViewport().setBackground(Color.decode("#48A6A7"));
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#48A6A7")));
         add(scrollPane);
+
+        JButton allIncome = new JButton("Get Savings");
+        allIncome.setBounds(150, 570, 200, 50);
+        allIncome.setFont(new Font("Arial", Font.BOLD, 16));
+        allIncome.setForeground(Color.WHITE);
+        allIncome.setBackground(Color.decode("#006A71"));
+        allIncome.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        allIncome.setFocusPainted(false);
+        allIncome.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        allIncome.addActionListener(e -> allInvestments());
+        add(allIncome);
 
         setVisible(true);
     }
 
-    private void allInvestments() throws SQLException {
-        controllerInvestment = new InvestmentController();
-        List<Investment> results = controllerInvestment.getOne(conceptField.getText());
-        tableModel.setRowCount(0);
-    
-        for (Investment investment : results) {
-            Object[] row = {investment.getConcept(), investment.investment, investment.interest, investment.months, investment.feeBack};
-            tableModel.addRow(row);
+    private void allInvestments() {
+        final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("es-CO"));
+
+        try {
+            controllerInvestment = new InvestmentController();
+            List<Investment> results = controllerInvestment.getOne(conceptField.getText());
+            tableModel.setRowCount(0);
+        
+            for (Investment investment : results) {
+                Object[] row = {investment.getConcept(), currencyFormatter.format(investment.investment), investment.interest, investment.months, investment.feeBack};
+                tableModel.addRow(row);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     

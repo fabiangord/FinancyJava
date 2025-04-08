@@ -29,11 +29,19 @@ private ExpenseService service;
         service.delete(id);
     }
 
+    public void deleteAll(){
+        service.deleteAll();
+    }
+
     public List<Expense> getOne(int id){
         return service.getOne(id);
     }
 
     public BigInteger getTotal(){
         return service.getTotal();
+    }
+
+    public void exportCSV(){
+        service.exportCSV();
     }
 }

@@ -3,6 +3,7 @@ package Controller;
 import Models.Investment;
 import Service.InvestmentService;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
 public class InvestmentController {
@@ -12,40 +13,28 @@ public class InvestmentController {
         this.invService = new InvestmentService();
     };
 
-    public void add(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) {
+    public void add(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) throws SQLException {
         invService.add(concept, investment, interest, months, feeBack);
     }
 
-    public void insertDB(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) {
+    public void insertDB(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) throws SQLException {
         invService.insertDB(concept, investment, interest, months, feeBack);
     }
     
-    public List<Investment> getAll(){
-        return invService.getAll();
-    }
 
-    public void update(String concept, long goal){
+    public void update(String concept, long goal) throws SQLException {
         invService.update(concept, goal);
     }
 
-    public void delete(String concept){
+    public void delete(String concept) throws SQLException {
         invService.delete(concept);
     }
 
-    public List<Investment> getOne(String concept){
+    public List<Investment> getOne(String concept) throws SQLException {
         return invService.getOne(concept);
     }
 
-    public long getTotal(){
-        return invService.getTotal();
-    }
-    
-    public long getResult(String concept, int goal, long investment, 
-                         float interest, int months){
-        return invService.getResult(concept, goal, investment, interest, months);
-    }
-    
-    public BigDecimal getResult2(String concept, BigDecimal investment, 
+    public BigDecimal getResult(String concept, BigDecimal investment, 
                          float interest, int months){
     return invService.getResult(concept, investment, interest, months);
     }

@@ -85,6 +85,18 @@ public class SavingDB {
         }
     }
 
+    public void deleteAll(){
+        if(con != null){
+            String sql = "DELETE FROM savings";
+            try (PreparedStatement ps = con.prepareStatement(sql)){
+                ps.executeUpdate();
+                System.out.println("All deleted!");
+            } catch (Exception e) {
+                System.out.println("Error deleting saving: " + e.getMessage());
+            }
+        }
+    }
+
     public List<Saving> getOne(int id){
         List<Saving> savings = new ArrayList<>();
         if(con != null){

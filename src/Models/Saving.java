@@ -24,18 +24,6 @@ public class Saving {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public BigInteger getValue() {
-        return value;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
     @Override
     public String toString() {
         return "id: " + id + ", name: " + name + ", value: " + value + ", category: " + category;

@@ -85,6 +85,18 @@ public class BudgetDB {
         }
     }
 
+    public void deleteAll(){
+        if(con != null){
+            String sql = "DELETE FROM budgets";
+            try (PreparedStatement ps = con.prepareStatement(sql)){
+                ps.executeUpdate();
+                System.out.println("All deleted!");
+            } catch (Exception e) {
+                System.out.println("Error deleting budget: " + e.getMessage());
+            }
+        }
+    }
+
     public List<Budget> getOne(int id){
         List<Budget> budgets = new ArrayList<>();
         if(con != null){

@@ -15,7 +15,7 @@ public class SavingService {
 
     public SavingService(){
         this.database = new SavingDB();
-    };
+    }
 
     public SavingDB getDatabase() {
         return database;
@@ -37,6 +37,10 @@ public class SavingService {
         database.delete(id);
     }
 
+    public void deleteAll(){
+        database.deleteAll();
+    }
+
     public List<Saving> getOne(int id){
         return database.getOne(id);
     }
@@ -48,7 +52,7 @@ public class SavingService {
     public void exportCSV() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Guardar reporte CSV");
-        fileChooser.setSelectedFile(new java.io.File("reporteSaving.csv"));
+        fileChooser.setSelectedFile(new java.io.File("reportSaving.csv"));
         int userSelection = fileChooser.showSaveDialog(null);
         if (userSelection != JFileChooser.APPROVE_OPTION) {
             return;
@@ -63,9 +67,9 @@ public class SavingService {
             for (Saving saving : savings) {
                 writer.writeNext(new String[]{
                     String.valueOf(saving.getId()),
-                    saving.getName(),
-                    saving.getCategory().toString(),
-                    saving.getValue().toString()
+                    saving.name,
+                    saving.category.toString(),
+                    saving.value.toString()
                 });
             }
             JOptionPane.showMessageDialog(null, "Reporte guardado en:\n" + filePath);

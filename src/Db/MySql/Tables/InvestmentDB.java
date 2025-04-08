@@ -1,6 +1,5 @@
 package Db.MySql.Tables;
 
-import Db.MySql.Exceptions.NoDataFoundException;
 import Db.MySql.MySQL;
 import Models.Investment;
 import java.math.BigDecimal;
@@ -10,11 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class InvestmentDB {
     public static Connection con = MySQL.connect();
+    List<Investment> investments = new ArrayList<>();
     
-    public void insert(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) {
+    public void insert(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) throws SQLException {
         if (con != null) {
             String sql = "INSERT INTO investments (concept, investment, interest, months, feeback)" 
                          + "VALUES (?, ?, ?, ?, ?)";
@@ -25,38 +26,16 @@ public class InvestmentDB {
                 ps.setInt(4, months);
                 ps.setBigDecimal(5, feeBack);
                 ps.executeUpdate();
-                System.out.println("INVESTMENT INSERTED");
+                JOptionPane.showMessageDialog(null, "INVESTMENT INSERTED");
             } catch (SQLException e) {
-                System.out.println("ERROR WHILE TRY INSERT THE INVESTMENT: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "ERROR TRYING TO INSERT DATA, " +e);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Connection to BD failed");
         }
     }
 
-    public List<Investment> getAll() {
-        List<Investment> investments = new ArrayList<>();
-        if (con != null) {
-            String sql = "SELECT * FROM `investments`";
-            try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    String concept = rs.getString("concept");
-                    int goal = rs.getInt("goal");
-
-                    System.out.println(" Concepto: " + concept + " Meta: " + goal);
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al visualizar Ingreso: " + e.getMessage());
-            }
-        }
-
-        if(investments.isEmpty()) {
-            new NoDataFoundException("Error al devolver la información");
-        }
-
-        return investments;
-        
-    }
-
-    public void update(String concept, long goal){
+    public void update(String concept, long goal) throws SQLException {
         if(con != null){
             String sql ="UPDATE investments SET concept = ?, goal = ? WHERE concept = ?"; 
             try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -68,61 +47,61 @@ public class InvestmentDB {
             } catch (SQLException e) {
                 System.out.println("Error al actualizar el ingreso: " + e.getMessage());
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Connection to BD failed");
         }
     }
-
-    public void delete(String concept){
-        if(con != null){
+    public void delete(String concept) {
+        if (con != null) {
             String sql = "DELETE FROM investments WHERE concept = ?";
-            try (PreparedStatement ps = con.prepareStatement(sql)){
+    
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setString(1, concept);
-                ps.executeUpdate();
-                System.out.println("Ingreso Eliminado correctamente");
-            } catch (Exception e) {
-                System.out.println("Error al actualizar ingreso: " + e.getMessage());
+                int rowsDeleted = ps.executeUpdate();
+                if (rowsDeleted > 0) {
+                    JOptionPane.showMessageDialog(null, "INVESTMENT DELETED");
+                } else {
+                    JOptionPane.showMessageDialog(null, "INVESTMENT DOESN'T EXIST");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "BD ERROR: " + ex.getMessage());
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Connection to BD failed");
         }
     }
+    
 
     public List<Investment> getOne(String concept){
-        List<Investment> investments = new ArrayList<>();
-        if(con != null){
+    
+        if (con != null) {
             String sql = "SELECT * FROM investments WHERE concept = ?";
-            try (PreparedStatement ps = con.prepareStatement(sql)){
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setString(1, concept);
                 ResultSet rs = ps.executeQuery();
+                boolean found = false;
                 while (rs.next()) {
-                    String concept2 = rs.getString("concept");
-                    long goal = rs.getLong("goal");
-                    System.out.println(" Concepto: " + concept2 + " Meta " + goal );
-
-                    Investment investment = new Investment(concept, goal);
-
+                    found = true;
+                    String conceptD = rs.getString("concept");
+                    long investmentD = rs.getLong("investment");
+                    BigDecimal investmentBD = BigDecimal.valueOf(investmentD);
+                    float interestD = rs.getFloat("interest");
+                    int monthsD = rs.getInt("months");
+                    long feeBackD = rs.getLong("feeBack");
+                    BigDecimal feeBackBD = BigDecimal.valueOf(feeBackD);
+                    Investment investment = new Investment(conceptD, investmentBD, interestD, monthsD, feeBackBD);
                     investments.add(investment);
                 }
-            } catch (Exception e) {
-                System.out.println("Error al buscar ingresos: " + e.getMessage());
+                if (!found) {
+                    JOptionPane.showMessageDialog(null, "INVESTMENT DOESN'T EXIST");
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "BD ERROR: " + e.getMessage());
             }
-        }
-        if(investments.isEmpty()){
-            new NoDataFoundException("Error al devolver la información");
+        } else {
+            JOptionPane.showMessageDialog(null, "Connection to BD failed");
         }
         return investments;
     }
-
-    public long getTotal() {
-        long total = 0;
-        if (con != null) {
-            String sql = "SELECT SUM(goal) FROM investments";
-            try (PreparedStatement ps = con.prepareStatement(sql);
-                 ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    total = rs.getLong(1);
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al obtener el total de los ingresos: " + e.getMessage());
-            }
-        }
-        return total;
-    }
+    
 }

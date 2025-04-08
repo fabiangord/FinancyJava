@@ -10,6 +10,7 @@ import java.util.List;
 
 import Db.MySql.MySQL;
 import Db.MySql.Exceptions.NoDataFoundException;
+import Helpers.Category;
 import Models.Income;
 
 public class IncomeDB {
@@ -38,13 +39,14 @@ public class IncomeDB {
                     int id = rs.getInt("id");
                     String name = rs.getString("name");
                     BigInteger value = BigInteger.valueOf(rs.getInt("value"));
-                    String category = rs.getString("category");
+                    Category category = Category.valueOf(rs.getString("category"));
 
                     System.out.println("ID: " + id + " Nombre: " + name + " valor: " + value + " categoria: " + category);
 
-                    Income income = new Income(name, value);
+                    Income income = new Income(name, value, category);
 
                     income.setId(id);
+                    System.out.println(income.category);
                     incomes.add(income);
                 }
             } catch (SQLException e) {
@@ -89,6 +91,18 @@ public class IncomeDB {
         }
     }
 
+    public void deleteAll(){
+        if(con != null){
+            String sql = "DELETE FROM incomes";
+            try (PreparedStatement ps = con.prepareStatement(sql)){
+                ps.executeUpdate();
+                System.out.println("All deleted!");
+            } catch (Exception e) {
+                System.out.println("Error deleting income: " + e.getMessage());
+            }
+        }
+    }
+
     public List<Income> getOne(int id){
         List<Income> incomes = new ArrayList<>();
         if(con != null){
@@ -102,7 +116,9 @@ public class IncomeDB {
                     BigInteger value = BigInteger.valueOf(rs.getLong("value"));
                     System.out.println("ID: " + incomeId + " Nombre: " + name + " valor: " + value );
 
-                    Income income = new Income(name, value);
+                    Category category = Category.valueOf(rs.getString("category"));
+                    Income income = new Income(name, value, category);
+                    
                     income.setId(incomeId);
 
                     incomes.add(income);

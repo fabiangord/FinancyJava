@@ -1,19 +1,32 @@
 package Models;
 
+import java.math.BigDecimal;
+
 public class Investment{
     public String concept;
-    public long goal; 
+    public BigDecimal investment;
+    public float interest;
+    public int months;
+    public BigDecimal feeBack;
 
-    public Investment(String concept, long goal) {
+    public Investment(String concept, BigDecimal investment) {
         this.concept = concept;
-        this.goal = goal;
+        this.investment = investment;
+    }
+
+    public Investment(String concept, BigDecimal investment, float interest, int months, BigDecimal feeBack) {
+        this.concept = concept;
+        this.investment = investment;
+        this.interest = interest;
+        this.months = months;
+        this.feeBack = feeBack;
     }
 
     public String getConcept(){
         return concept;
     }
 
-    public long getGoal(){
-        return goal;
+    public BigDecimal getinvestment(){
+        return investment;
     }
 }
